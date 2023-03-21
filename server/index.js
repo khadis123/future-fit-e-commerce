@@ -3,6 +3,20 @@
 const express = require('express');
 const morgan = require('morgan');
 
+const {
+  getItems,
+  getItem,
+  getCompanies,
+  getCompany,
+  getCart,
+  createCart,
+  updateCart,
+  confirmOrder,
+  deleteItem
+} = require("./handlers")
+
+
+
 const PORT = 4000;
 
 express()
@@ -24,6 +38,23 @@ express()
   .use('/', express.static(__dirname + '/'))
 
   // REST endpoints?
-  .get('/bacon', (req, res) => res.status(200).json('🥓'))
+ /*********************************************************/
+
+ .get('/getItems', getItems)
+ .get('/getItem/_id', getItem)
+
+ .get('/companies', getCompanies)
+ .get('/companies/:_id', getCompany)
+
+ .get('/cart/:orderId', getCart)
+
+ .post('/add-item', createCart)
+ .patch('update-cart', updateCart)
+
+ .post('/confirmation/:orderId', confirmOrder)
+
+ .delete('/delete-item/:itemId', deleteItem)
+
+/*********************************************************/
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
