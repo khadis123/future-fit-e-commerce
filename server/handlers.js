@@ -15,7 +15,7 @@ const getItems = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     const items = await db.collection('items').find().toArray()
     console.log(items)
@@ -34,7 +34,7 @@ const getItem = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -49,7 +49,7 @@ const getCompanies = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -65,7 +65,7 @@ const getCompany = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -79,7 +79,7 @@ const getCart = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -93,7 +93,7 @@ const createCart = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -107,7 +107,7 @@ const updateCart = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -121,7 +121,7 @@ const confirmOrder = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
@@ -135,7 +135,7 @@ const deleteItem = async(req, res) => {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
-    const db = client.db('E-COMteam')
+    const db = client.db('eCommerce')
 
     client.close()
   } catch (error) {
