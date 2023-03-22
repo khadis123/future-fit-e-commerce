@@ -1,5 +1,7 @@
 const Confirmation = ()=> {
-
+    return(
+        <h1>CONFIRMATION</h1>
+    )
 
 }
 
