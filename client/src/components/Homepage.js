@@ -1,8 +1,14 @@
+import styled from "styled-components"
+
 const Homepage = () => {
 
     return(
-        <h1>HOMEPAGE</h1>
+        <Wrapper>
+            Homepage
+            </Wrapper>
     )
 }
-
+const Wrapper = styled.div`
+height:100vh;
+`
 export default Homepage
