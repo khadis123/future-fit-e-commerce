@@ -102,12 +102,54 @@ const getCart = async(req, res) => {
   }
 }
 
+
 const createCart = async(req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options)
     await client.connect()
-
     const db = client.db('eCommerce')
+
+// this verifies that the item _id exist
+const itemId = req.body._id
+const findItem = await db.collection("items").findOne({ _id: Number(itemId)});
+
+if (!findItem) {
+  return res
+    .status(400)
+    .json({ status: 400, data: "Item doesn't exist" });
+}
+
+// this verifies that the item is in stock
+if (findItem.numInStock <= req.body.quantity ) {
+  return res
+    .status(400) 
+    .json({ status: 400, data: "Item not in stock" });
+}
+
+//   this creates new cart
+const newOrderId = uuidv4();
+const newCart = {
+  _id: newOrderId, 
+  cart: [req.body] 
+};
+const creatingNewCart = await db
+.collection("carts")
+.insertOne(newCart);
+
+//   this updates item stock
+const query = { _id: Number(itemId) };
+const update = { $set: { "numInStock": (findItem.numInStock - Number(req.body.quantity))} };
+
+const itemStockUpdate = await db
+.collection("items")
+.updateOne(query, update);
+///////////////
+
+res.status(200).json({
+  status: 200,
+  message: "New cart created",
+  orderId: `Your order id ${newId}`
+});
 
     client.close()
   } catch (error) {
@@ -115,6 +157,7 @@ const createCart = async(req, res) => {
     client.close()
   }
 }
+
 
 const updateCart = async(req, res) => {
   try {
