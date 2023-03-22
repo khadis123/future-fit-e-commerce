@@ -12,7 +12,7 @@ const {
   createCart,
   updateCart,
   confirmOrder,
-  deleteItem
+  
 } = require("./handlers")
 
 
