@@ -89,16 +89,27 @@ const getCompany = async (req, res) => {
 };
 
 const getCart = async(req, res) => {
+  const orderId = req.params.orderId;
+
   try {
-    const client = new MongoClient(MONGO_URI, options)
-    await client.connect()
+  const client = new MongoClient(MONGO_URI, options)
+  await client.connect()
 
-    const db = client.db('eCommerce')
+  const db = client.db('eCommerce')
+  console.log(orderId)
 
-    client.close()
+  const result = await db
+    .collection("carts")
+    .findOne({ _id: Number(orderId) });
+
+  result
+    ? res.status(200).json({ status: 200, orderId, data: result })
+    : res.status(404).json({ status: 404, orderId, message: "Not Found" });
+
+  client.close()
   } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+  res.status(500).json({status: 500, message: error})
+  client.close()
   }
 }
 
@@ -109,47 +120,47 @@ const createCart = async(req, res) => {
     await client.connect()
     const db = client.db('eCommerce')
 
-// this verifies that the item _id exist
-const itemId = req.body._id
-const findItem = await db.collection("items").findOne({ _id: Number(itemId)});
+    // this verifies that the item _id exist
+    const itemId = req.body._id
+    const findItem = await db.collection("items").findOne({ _id: Number(itemId)});
 
-if (!findItem) {
-  return res
-    .status(400)
-    .json({ status: 400, data: "Item doesn't exist" });
-}
+    if (!findItem) {
+      return res
+        .status(400)
+        .json({ status: 400, data: "Item doesn't exist" });
+    }
 
-// this verifies that the item is in stock
-if (findItem.numInStock <= req.body.quantity ) {
-  return res
-    .status(400) 
-    .json({ status: 400, data: "Item not in stock" });
-}
+    // this verifies that the item is in stock
+    if (findItem.numInStock <= req.body.quantity ) {
+      return res
+        .status(400) 
+        .json({ status: 400, data: "Not enough item in stock" });
+    }
 
-//   this creates new cart
-const newOrderId = uuidv4();
-const newCart = {
-  _id: newOrderId, 
-  cart: [req.body] 
-};
-const creatingNewCart = await db
-.collection("carts")
-.insertOne(newCart);
+    //   this creates new cart
+    const newOrderId = uuidv4();
+    const newCart = {
+      _id: newOrderId, 
+      cart: [req.body] 
+    };
+    const creatingNewCart = await db
+    .collection("carts")
+    .insertOne(newCart);
 
-//   this updates item stock
-const query = { _id: Number(itemId) };
-const update = { $set: { "numInStock": (findItem.numInStock - Number(req.body.quantity))} };
+    //   this updates item stock
+    const query = { _id: Number(itemId) };
+    const update = { $set: { "numInStock": (findItem.numInStock - Number(req.body.quantity))} };
 
-const itemStockUpdate = await db
-.collection("items")
-.updateOne(query, update);
-///////////////
+    const itemStockUpdate = await db
+    .collection("items")
+    .updateOne(query, update);
+    ///////////////
 
-res.status(200).json({
-  status: 200,
-  message: "New cart created",
-  orderId: `Your order id ${newId}`
-});
+    res.status(200).json({
+      status: 200,
+      message: "New cart created",
+      orderId: `Your order id ${newOrderId}`
+    });
 
     client.close()
   } catch (error) {
@@ -187,18 +198,69 @@ const confirmOrder = async(req, res) => {
   }
 }
 
-const deleteItem = async(req, res) => {
+const deleteItem = async (req, res) => {
+  const { item } = req.params;
+
+  // console.log("In deleteReservation handler")
   try {
-    const client = new MongoClient(MONGO_URI, options)
-    await client.connect()
+    // creates a new client
+    const client = new MongoClient(MONGO_URI, options);
 
-    const db = client.db('eCommerce')
+    // connect to the client
+    await client.connect();
 
-    client.close()
-  } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+    // connect to the database (eCommerce is provided as an argument to the function)
+    const db = client.db("eCommerce");
+
+    const myItem = await db
+      .collection("items")
+      .findOne({ _id: item });
+    if (!myItem) {
+      return res
+        .status(404)
+        .json({ status: 404, message: "Unable to find the item" });
+    }
+    // if the item changes, we update the collection 'items'
+    
+      const updateItemInItemsArray = await db.collection("items").updateOne(
+        // query object
+        {
+          item: myItem.item, //second item comes from req.body
+          "items.numInStock": myItem.numInStock,
+        },
+        // update object
+        {
+          $set: { "items.$.numInStock": myItem.numInStock +1 },
+        }
+      );
+      if (updateItemInItemsArray.modifiedCount === 0) {
+        return res
+          .status(400)
+          .json({ status: 400, message: "Error making update" });
+      } else {
+          //delete the item in 'items' collection using deleteOne
+          const deleteUpdateItemInItemsCollection = await db
+          .collection("items")
+          .deleteOne(
+            // query object
+            {
+              _id: item
+            })
+      }
+
+    //closing the connection with mongo server/database
+    client.close();
+    console.log("disconnected!");
+    res.status(200).json({ status: 200, message: "Data deleted successfully" });
+
+    // On success/no error, send
+    // on failure/error, send
+  }  catch(err) {
+      res.status(500).json({ status: 500, message: err.message });
+
+    console.log(err.stack);
   }
+;
 }
 
 module.exports = {
