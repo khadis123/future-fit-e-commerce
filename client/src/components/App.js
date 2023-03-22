@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
@@ -12,13 +11,6 @@ import SingleItem from "./SingleItem";
 import Items from "./Items";
 
 function App() {
-  const [bacon, setBacon] = useState(null);
-
-  useEffect(() => {
-    fetch("/bacon")
-      .then((res) => res.json())
-      .then((data) => setBacon(data));
-  }, []);
 
   return (
     <BrowserRouter>
