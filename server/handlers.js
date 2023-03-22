@@ -88,6 +88,30 @@ const getCompany = async (req, res) => {
   }
 };
 
+// this gets item by category
+const getItemByCategory = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("eCommerce");
+    const myCategory = req.params;
+
+    const items = await db.collection("items").find().toArray();
+    const itemsCatOnly = items.map((item) => {
+      return item.category === myCategory;
+    });
+
+    itemsCatOnly
+      ? res.status(200).json({ status: 200, data: itemsCatOnly })
+      : res
+          .status(400)
+          .json({ status: 400, message: "Nothing was found here" });
+    client.close();
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error });
+  }
+};
+
 const getCart = async(req, res) => {
   const orderId = req.params.orderId;
 
@@ -220,6 +244,7 @@ const confirmOrder = async (req, res) => {
 module.exports = {
   getItems,
   getItem,
+  getItemByCategory,
   getCompanies,
   getCompany,
   getCart,

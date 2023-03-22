@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const {
   getItems,
   getItem,
+  getItemByCategory,
   getCompanies,
   getCompany,
   getCart,
@@ -42,6 +43,7 @@ express()
 
  .get('/getItems', getItems)
  .get('/getItem/:_id', getItem)
+ .get('/getItem/:category', getItemByCategory)
 
  .get('/companies', getCompanies)
  .get('/companies/:_id', getCompany)
