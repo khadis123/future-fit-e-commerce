@@ -49,7 +49,7 @@ express()
  .get('/cart/:orderId', getCart)
 
  .post('/add-item', createCart)
- .patch('update-cart', updateCart)
+ .patch('/update-cart', updateCart)
 
  .post('/confirmation/:orderId', confirmOrder)
 
