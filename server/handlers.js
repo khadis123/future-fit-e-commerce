@@ -18,61 +18,75 @@ const getItems = async (req, res) => {
     const db = client.db('eCommerce')
 
     const items = await db.collection('items').find().toArray()
-    console.log(items)
-
+    items ?
+      res.status(200).json({status: 200, data: items}) :
+      res.status(400).sjon({status: 400, message: "Nothing was found here"})
     client.close()
-
   } catch (error) {
+    console.log(error)
     res.status(500).json({status: 500, message: error})
-    client.close()
   }
 }
 
 //Gets a specific item based on it's _id
 const getItem = async (req, res) => {
+  const myId = req.params._id;
+  const client = new MongoClient(MONGO_URI, options)
+
   try {
-    const client = new MongoClient(MONGO_URI, options)
     await client.connect()
 
     const db = client.db('eCommerce')
 
-    client.close()
+    const itemById = await db.collection('items').findOne({ _id: Number(myId) });
+  
+    itemById 
+      ? res.status(200).json({ status: 200, data: itemById }) 
+      : res.status(400).json({status: 400, data: myId, message: "Nothing was found here"})
+
   } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+    res.status(500).json({status: 500, message: error}) 
   }
+  client.close();
 }
 
 //Gets all compagnies
-const getCompanies = async(req, res) => {
+const getCompanies = async (req, res) => {
   try {
-    const client = new MongoClient(MONGO_URI, options)
-    await client.connect()
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("eCommerce");
 
-    const db = client.db('eCommerce')
+    const allCompanies = await db.collection("companies").find().toArray();
 
-    client.close()
+    allCompanies
+      ? res.status(200).json({ status: 200, data: allCompanies })
+      : res.status(400).json({status: 400, message: "Nothing was found here"})
+    client.close();
   } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+    res.status(500).json({ status: 500, message: error });
   }
-}
+};
 
 
 //Gets a specific company based on it's _id
-const getCompany = async(req, res) => {
+const getCompany = async (req, res) => {
   try {
-    const client = new MongoClient(MONGO_URI, options)
-    await client.connect()
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("eCommerce");
+    const myId = req.params._id;
+    const companyById = await db.collection("companies").findOne({ _id: Number(myId) });
 
-    const db = client.db('eCommerce')
-
-    client.close()
+    companyById
+      ? res.status(200).json({ status: 200, data: companyById })
+      : res.status(400).json({status: 400, data: myId, message: "Nothing was found here"})
+    client.close();
   } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+    res.status(500).json({ status: 500, message: error });
+    client.close();
   }
-}
+};
 
 const getCart = async(req, res) => {
   try {
