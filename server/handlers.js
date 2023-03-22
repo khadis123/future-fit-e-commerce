@@ -226,5 +226,4 @@ module.exports = {
   createCart,
   updateCart,
   confirmOrder,
-  deleteItem
 }
