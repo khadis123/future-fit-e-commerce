@@ -41,7 +41,7 @@ express()
  /*********************************************************/
 
  .get('/getItems', getItems)
- .get('/getItem/_id', getItem)
+ .get('/getItem/:_id', getItem)
 
  .get('/companies', getCompanies)
  .get('/companies/:_id', getCompany)
