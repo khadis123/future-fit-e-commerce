@@ -216,69 +216,6 @@ const confirmOrder = async (req, res) => {
   }
 };
 
-const deleteItem = async (req, res) => {
-  const { item } = req.params;
-
-  // console.log("In deleteReservation handler")
-  try {
-    // creates a new client
-    const client = new MongoClient(MONGO_URI, options);
-
-    // connect to the client
-    await client.connect();
-
-    // connect to the database (eCommerce is provided as an argument to the function)
-    const db = client.db("eCommerce");
-
-    const myItem = await db
-      .collection("items")
-      .findOne({ _id: item });
-    if (!myItem) {
-      return res
-        .status(404)
-        .json({ status: 404, message: "Unable to find the item" });
-    }
-    // if the item changes, we update the collection 'items'
-    
-      const updateItemInItemsArray = await db.collection("items").updateOne(
-        // query object
-        {
-          item: myItem.item, //second item comes from req.body
-          "items.numInStock": myItem.numInStock,
-        },
-        // update object
-        {
-          $set: { "items.$.numInStock": myItem.numInStock +1 },
-        }
-      );
-      if (updateItemInItemsArray.modifiedCount === 0) {
-        return res
-          .status(400)
-          .json({ status: 400, message: "Error making update" });
-      } else {
-          //delete the item in 'items' collection using deleteOne
-          const deleteUpdateItemInItemsCollection = await db
-          .collection("items")
-          .deleteOne(
-            // query object
-            {
-              _id: item
-            })
-      }
-
-    //closing the connection with mongo server/database
-    client.close();
-    console.log("disconnected!");
-    res.status(200).json({ status: 200, message: "Data deleted successfully" });
-
-    // On success/no error, send
-    // on failure/error, send
-  }  catch(err) {
-      res.status(500).json({ status: 500, message: err.message });
-
-    console.log(err.stack);
-  }
-}
 
 module.exports = {
   getItems,

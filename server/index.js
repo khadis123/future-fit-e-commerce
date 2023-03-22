@@ -50,10 +50,8 @@ express()
 
  .post('/add-item', createCart)
  .patch('/update-cart', updateCart)
-
+ 
  .post('/confirmation/:orderId', confirmOrder)
-
- .delete('/delete-item/:itemId', deleteItem)
 
 /*********************************************************/
 
