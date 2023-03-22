@@ -12,13 +12,11 @@ const [categories, setCategories] = useState()
             console.log(data)
             setCategories(data.data) 
           })
+
           .catch((error) => {
             console.log(error);
           });
       }, []);
-      
-
-
 return(
     <Wrapper>
 <h1>LOGO FutureFit</h1>
