@@ -1,9 +1,8 @@
 import styled from "styled-components"
-import { useEffect, useState } from "react";
+
 
 
 const Homepage = () => {
-const [categories, setCategories] = useState()
 
 
     return(
