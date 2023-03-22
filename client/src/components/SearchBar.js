@@ -1,15 +1,38 @@
-import { useState } from "react"
-import {BsSearch} from "react-icons/bs"
+import { useEffect, useState } from "react";
+import { BsSearch } from "react-icons/bs";
 import styled from "styled-components";
 
 const SearchBar = () => {
+  const [userInput, setUserInput] = useState("");
+  const [itemSuggestion, setItemSuggestion] = useState([]);
+  const [compSuggestion, setCompSuggestion] = useState([]);
 
-const [userInput, setUserInput]= useState("");
-const [suggestion, setSuggestion] = useState([]);
+//   useEffect(() => {
+//     fetch("/getItems")
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data);
 
-return(
-<Wrapper>
-<div>
+//         setItemSuggestion(data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+
+//     fetch("/companies")
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data);
+//         setCompSuggestion(data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
+//   });
+
+  return (
+    <Wrapper>
+      <div>
         <Input
           type="text"
           value={userInput}
@@ -20,12 +43,13 @@ return(
             // }
           }}
         />
-        <Button onClick={() => setUserInput("")}><BsSearch/></Button>
+        <Button onClick={() => setUserInput("")}>
+          <BsSearch />
+        </Button>
       </div>
-
-</Wrapper>
-)
-}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,6 +79,6 @@ const Input = styled.input`
   &:focus {
     border: 4px solid rgb(68, 140, 255);
   }
-`
+`;
 
-export default SearchBar
+export default SearchBar;
