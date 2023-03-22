@@ -1,6 +1,6 @@
 const Help = () => {
 
-
+return <>HELLO</>
 
 }
 
