@@ -173,19 +173,37 @@ const updateCart = async(req, res) => {
   }
 }
 
-const confirmOrder = async(req, res) => {
+const confirmOrder = async (req, res) => {
   try {
-    const client = new MongoClient(MONGO_URI, options)
-    await client.connect()
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("eCommerce");
 
-    const db = client.db('eCommerce')
+    const orderId = req.body._id;
+    const findCart = await db
+      .collection("carts")
+      .findOne({ _id: Number(orderId) });
 
-    client.close()
+    const finalOrder = {
+      orderId: req.body._id,
+      name: req.body.name,
+      address: req.body.address,
+      email: req.body.email,
+      cart: findCart,
+    };
+
+    res.status(200).json({
+        status: 200,
+        message: "New order created",
+        orderId: `Your order id ${orderId}`,
+      });
+
+    client.close();
   } catch (error) {
-    res.status(500).json({status: 500, message: error})
-    client.close()
+    res.status(500).json({ status: 500, message: error });
+    client.close();
   }
-}
+};
 
 const deleteItem = async(req, res) => {
   try {
