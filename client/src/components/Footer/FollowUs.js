@@ -26,5 +26,6 @@ width:400px;
 display:flex;
 flex-direction:row;
 justify-content:space-around;
+
 `
 export default FollowUs
