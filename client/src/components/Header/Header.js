@@ -38,6 +38,7 @@ const Header = () => {
 const HeaderNavLink = styled(NavLink)`
   text-decoration: none;
   color: black;
+  font-weight: bold;
   font-family: var(--font-heading);
   font-size: 20px;
   padding: 0 25px 0 25px;

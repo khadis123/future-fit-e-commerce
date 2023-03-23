@@ -81,7 +81,7 @@ const GlobalStyles = createGlobalStyle`
   button {
     background-color: var(--color-accent);
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     color: #fff;
     cursor: pointer;
     font-size: 16px;
