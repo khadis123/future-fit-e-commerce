@@ -1,5 +1,5 @@
 "use strict";
-const { uuid } = require("uuidv4");
+const { uuidv4 } = require("uuidv4");
 const { MongoClient, LEGAL_TLS_SOCKET_OPTIONS } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -308,7 +308,7 @@ const confirmOrder = async (req, res) => {
     ) {
       return res.status(409).json({ status: 409, data: "Missing information" });
     }
-    const newOrderId = uuid();
+    const newOrderId = uuidv4();
     const findCart = await db.collection("cart").find().toArray();
 
     const finalOrder = {
