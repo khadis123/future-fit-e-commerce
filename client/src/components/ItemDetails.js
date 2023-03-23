@@ -7,8 +7,12 @@ const ItemDetails = () => {
   const { _id } = useParams();
   const [product, setProduct] = useState(null);
   const [companies, setCompanies] = useState(null);
-const [newItem, setNewItem] = useState([])
-  const navigateCart = useNavigate()
+  const [quantity, setQuantity] = useState(null);
+  // not sure what newItem state does ?
+  const [newItem, setNewItem] = useState([]);
+
+
+  const navigateCart = useNavigate();
   useEffect(() => {
     fetch(`/getItem/${_id}`)
       .then((res) => res.json())
@@ -16,8 +20,8 @@ const [newItem, setNewItem] = useState([])
         if (data.status === 400 || data.status === 500) {
           throw new Error("Error");
         }
-        console.log(data.data);
         setProduct([data.data]);
+        setQuantity(data.data.numInStock);
 
         const _id = data.data.companyId;
         fetch(`/companies/${_id}`)
@@ -26,7 +30,6 @@ const [newItem, setNewItem] = useState([])
             if (data.status === 400 || data.status === 500) {
               throw new Error("Error");
             }
-            console.log(data.data);
             setCompanies([data.data]);
           })
           .catch((error) => {
@@ -38,87 +41,89 @@ const [newItem, setNewItem] = useState([])
       });
   }, []);
 
-if (product){
-    console.log(product._id);
-}
   const handleClick = (event) => {
     event.preventDefault();
-  if (product) {
     fetch("/add-item", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({name: product.name,
-            price: product.price,
-            body_location: product.body_location,
-            category:product.category,
-            _id: Number (product._id),
-            imageSrc: product.imageSrc,
-            quantity : 1,
-            companyId: product.companyId}),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-  
-          if (data.status === 400 || data.status === 500) {
-            throw new Error("Error");
-          } else {
-            setNewItem(data)
-          }
-        })
-        .catch((error) => {
-          console.log(error);
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: product[0].name,
+        price: product[0].price,
+        body_location: product[0].body_location,
+        category: product[0].category,
+        _id: Number(product[0]._id),
+        imageSrc: product[0].imageSrc,
+        quantity: 1,
+        companyId: product[0].companyId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setQuantity((current) => {
+          return current - 1;
         });
-    }
+        if (data.status === 400 || data.status === 500) {
+          throw new Error("Error");
+        } else {
+          setNewItem(data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
     <VH>
-    {(!product || !companies) ? (
-  <LoadingIcon>
-    <FiLoader />
-  </LoadingIcon>
-    ) : (
-      <Wrapper>
-        <ProductFeed>
-          {product.map((item) => {
-            return (
-              <Container key={item._id}>
-                <Picture>
-                  <img src={item.imageSrc} />
-                </Picture>
-                <Divider>
-                  <Info>
-                    {companies.map((company) => {
-                      return <Link key={company._id} to={company.url}>{company.name}</Link>;
-                    })}
-                    <Name>{item.name}</Name>
-                    <p> {item.price}</p>
-                  </Info>
-                  <AddCart>
-                    <Quantity>Quantity available: {item.numInStock}</Quantity>
-                    <Button disabled={item.numInStock === 0}
-                    onClick={handleClick}
-                    >
-                      {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
-                    </Button>
-                  </AddCart>
-                </Divider>
-              </Container>
-            );
-          })}
-        </ProductFeed>
-      </Wrapper>
-    )}
-  </VH>
+      {!product || !companies ? (
+        <LoadingIcon>
+          <FiLoader />
+        </LoadingIcon>
+      ) : (
+        <Wrapper>
+          <ProductFeed>
+            {product.map((item) => {
+              return (
+                <Container key={item._id}>
+                  <Picture>
+                    <img src={item.imageSrc} />
+                  </Picture>
+                  <Divider>
+                    <Info>
+                      {companies.map((company) => {
+                        return (
+                          <Link key={company._id} to={company.url}>
+                            {company.name}
+                          </Link>
+                        );
+                      })}
+                      <Name>{item.name}</Name>
+                      <p> {item.price}</p>
+                    </Info>
+                    <AddCart>
+                      <Quantity>Quantity available: {quantity}</Quantity>
+                      <Button
+                        disabled={item.numInStock === 0}
+                        onClick={handleClick}
+                      >
+                        {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
+                      </Button>
+                    </AddCart>
+                  </Divider>
+                </Container>
+              );
+            })}
+          </ProductFeed>
+        </Wrapper>
+      )}
+    </VH>
   );
 };
-const Link = styled(NavLink)`
-
-`
+const Link = styled(NavLink)``;
 const Name = styled.p`
   font-weight: bold;
 `;
@@ -157,8 +162,8 @@ const LoadingIcon = styled(FiLoader)`
   left: 50%;
   top: 10px;
   animation: spin 1s infinite linear;
-  height:80vh;
-  
+  height: 80vh;
+
   @keyframes spin {
     100% {
       transform: rotate(360deg);
