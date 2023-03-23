@@ -1,50 +1,44 @@
 import styled from "styled-components";
 import { BsCart3 } from "react-icons/bs";
 import { NavLink, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
 import headerBackground from "../images/header_background.png";
 import logo from "../images/FutureFit.png";
 
-
 const Header = () => {
   const { category } = useParams();
-  const [items, setItems] = useState([]);
 
-  useEffect(() => {
-    fetch(`/getItems`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 400 || data.status === 500) {
-          throw new Error("Error");
-        }
-        console.log(data);
-        setItems(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   return (
     <Wrapper>
-    <Link to="/">
-      <Logo src={logo} alt="logo FutureFit" />
-    </Link>
-    {Array.isArray(items) && items.map((item) => (
-      <Link key={item.category} to={`/items/${item.category}`}>
-        {item.category}
+      <Link to="/">
+        <Logo src={logo} alt="logo FutureFit" />
       </Link>
-    ))}
-    <BsCart3 />
-  </Wrapper>
+
+      <StyledLink to={`/categories/fitness`}>Fitness</StyledLink>
+
+      <StyledLink to={`/categories/lifestyle`}>Lifestyle</StyledLink>
+
+      <StyledLink to={`/categories/medical`}>Medical</StyledLink>
+
+      <StyledLink to={`/categories/entertainment`}>Entertainment</StyledLink>
+
+      <StyledLink to={`/categories/pets`}>Pets</StyledLink>
+
+      <BsCart3 />
+    </Wrapper>
   );
 };
+
+const StyledLink = styled(NavLink)`
+  text-decoration: none;
+  color: black;
+`;
 
 const Link = styled(NavLink)`
   text-decoration: none;
   color: black;
 `;
+
 const Logo = styled.img`
   width: 400px;
 `;
@@ -55,7 +49,8 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   background-image: url(${headerBackground});
-  padding: 60px;
+  background-size:cover;
+  height:20vh;
 `;
 
 export default Header;

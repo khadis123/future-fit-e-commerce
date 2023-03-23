@@ -23,8 +23,7 @@ function App() {
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
         <Route path="/items/:_id" element={<SingleItem/>}/>
-        <Route path="/items/:category" element={<Category/>}/>
-
+        <Route path="/categories/:category" element={<Category/>}/>
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
       <Footer />
