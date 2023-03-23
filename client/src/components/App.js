@@ -3,6 +3,7 @@ import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import Homepage from "./Homepage";
 import Confirmation from "./Confirmation";
+import Cart from "./Cart";
 import Checkout from "./Checkout";
 import AboutUs from "./Footer/AboutUs";
 import ContactUs from "./Footer/ContactUs";
@@ -17,6 +18,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Homepage/>}/>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path="/confirmation" element={<Confirmation/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/about" element={<AboutUs/>}/>

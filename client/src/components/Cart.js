@@ -1,7 +1,62 @@
+import { useState, useEffect } from "react"
+import styled from "styled-components"
+import CartItem from "./CartItem"
+import GlobalStyles from "./GlobalStyles"
+
 const Cart = ()=> {
+
+    const [cartItems, setCartItems] = useState(null)
+
+    useEffect(() => {
+        fetch('/cart')
+        .then(res => res.json())
+        .then(parsedData => {
+            console.log(parsedData)
+            setCartItems(parsedData.data)
+        })
+    }, [])
+
+
     return(
-        <h1>CART</h1>
+    <Wrapper>
+        <GlobalStyles/>
+        {!cartItems ? <>loading</> :
+        <Left>
+            <>Your shopping cart</>
+            {
+                cartItems.map(cartItem => <CartItem cartItem={cartItem}/>)
+            }
+        </Left>
+        }
+        <Right>
+            <p></p>
+            <AddToCart>Add To Cart</AddToCart>
+        </Right>
+    </Wrapper>
     )
 }
 
 export default Cart
+
+const Wrapper = styled.div`
+display: flex;
+justify-content:space-around;
+`
+
+const Left = styled.div`
+display:flex;
+flex-direction: column;
+
+`
+
+const Right = styled.div`
+display:flex;
+flex-direction: column;
+justify-content: flex-end;
+`
+
+const AddToCart = styled.button`
+
+`
+
+
