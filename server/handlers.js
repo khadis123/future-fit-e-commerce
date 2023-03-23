@@ -1,5 +1,5 @@
 "use strict";
-
+const { uuid } = require("uuidv4");
 const { MongoClient, LEGAL_TLS_SOCKET_OPTIONS } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
@@ -121,23 +121,18 @@ const getCompany = async (req, res) => {
   }
 };
 
+// Get cart
 const getCart = async (req, res) => {
-  const orderId = req.params.orderId;
-
   try {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
-
     const db = client.db("eCommerce");
-    console.log(orderId);
 
-    const result = await db
-      .collection("carts")
-      .findOne({ _id: Number(orderId) });
+    const result = await db.collection("cart").find().toArray();
 
     result
-      ? res.status(200).json({ status: 200, orderId, data: result })
-      : res.status(404).json({ status: 404, orderId, message: "Not Found" });
+      ? res.status(200).json({ status: 200, data: result })
+      : res.status(404).json({ status: 404, message: "Not Found" });
 
     client.close();
   } catch (error) {
@@ -146,52 +141,91 @@ const getCart = async (req, res) => {
   }
 };
 
-const createCart = async (req, res) => {
+// Get order by ID
+const getOrder = async (req, res) => {
+  try {
+    const client = new MongoClient(MONGO_URI, options);
+    await client.connect();
+    const db = client.db("eCommerce");
+    const myId = Number(req.params.orderId);
+
+    const orderResult = await db.collection("orders").findOne({ _id: myId });
+    orderResult
+      ? res.status(200).json({ status: 200, data: orderResult })
+      : res
+          .status(400)
+          .sjon({ status: 400, message: "Nothing was found here" });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error });
+    client.close();
+  }
+};
+
+// POST add to cart
+const addCart = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
     // this verifies that the item _id exist
-    const itemId = req.body._id;
-    const findItem = await db
-      .collection("items")
-      .findOne({ _id: Number(itemId) });
-
+    const itemId = Number(req.body._id);
+    const findItem = await db.collection("items").findOne({ _id: itemId });
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
 
     // this verifies that the item is in stock
-    if (findItem.numInStock <= req.body.quantity) {
-      return res
-        .status(400)
-        .json({ status: 400, data: "Not enough item in stock" });
+    if (findItem.numInStock < req.body.quantity) {
+      return res.status(400).json({ status: 400, data: "Item not in stock" });
     }
 
-    //   this creates new cart
-    const newOrderId = uuidv4();
-    const newCart = {
-      _id: newOrderId,
-      cart: [req.body],
-    };
-    const creatingNewCart = await db.collection("carts").insertOne(newCart);
+    // this checks if item already exist in cart
+    const findCart = await db.collection("cart").find().toArray();
+    const itemFind = findCart.find((item) => {
+      return item._id === itemId;
+    });
 
-    //   this updates item stock
-    const query = { _id: Number(itemId) };
-    const update = {
+    // this updates quantity if item already exist in cart and updates stock as well
+    if (itemFind) {
+      const query = { _id: itemId };
+      const update = {
+        $set: { quantity: itemFind.quantity + Number(req.body.quantity) },
+      };
+      const updateQuantity = await db
+        .collection("cart")
+        .updateOne(query, update);
+
+      const query2 = { _id: itemId };
+      const update2 = {
+        $set: { numInStock: findItem.numInStock - Number(req.body.quantity) },
+      };
+      const itemStockUpdate = await db
+        .collection("items")
+        .updateOne(query2, update2);
+
+      return res.status(200).json({
+        status: 200,
+        message: "Cart has been updated",
+      });
+    }
+
+    // this adds new item to cart and updates stock
+    const newAddToCart = await db.collection("cart").insertOne(req.body);
+
+    const query1 = { _id: itemId };
+    const update1 = {
       $set: { numInStock: findItem.numInStock - Number(req.body.quantity) },
     };
 
     const itemStockUpdate = await db
       .collection("items")
-      .updateOne(query, update);
+      .updateOne(query1, update1);
     ///////////////
 
     res.status(200).json({
       status: 200,
-      message: "New cart created",
-      orderId: `Your order id ${newOrderId}`,
+      message: "New item added to cart",
     });
 
     client.close();
@@ -201,7 +235,7 @@ const createCart = async (req, res) => {
   }
 };
 
-// PATCH UPDATES CART
+// PATCH updates cart
 const updateCart = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
@@ -209,31 +243,49 @@ const updateCart = async (req, res) => {
     const db = client.db("eCommerce");
 
     // this verifies that the item _id exist
-    const itemId = req.body.item._id;
-    const findItem = await db
-      .collection("items")
-      .findOne({ _id: Number(itemId) });
-
+    const itemId = Number(req.body.item._id);
+    const findItem = await db.collection("items").findOne({ _id: itemId });
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
 
     // this verifies that the item is in stock
-    if (findItem.numInStock <= req.body.quantity) {
+    if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
     }
-    ////////
 
-    const orderId = req.body.orderId;
-    const oldCart = await db.collection("carts").findOne({ _id: orderId });
+    // this updates quantity in cart and updates stock
+    const oldCartItem = await db
+      .collection("cart")
+      .findOne({ _id: itemId })
+      .toArray();
 
-    const updatedCart = oldCart.cart.push(req.body.item);
+    const query1 = { _id: itemId };
+    const update1 = {
+      $set: { quantity: oldCartItem.quantity + Number(req.body.quantity) },
+    };
+    const updateQuantity = await db
+      .collection("cart")
+      .updateOne(query1, update1);
 
-    const query = { _id: orderId };
-    const update = { $set: { updatedCart } };
-    const newCart = await db.collection("carts").updateOne(query, update);
+    // stock
+    const query2 = { _id: itemId };
+    const update2 = {
+      $set: { numInStock: findItem.numInStock - Number(req.body.quantity) },
+    };
+    const itemStockUpdate = await db
+      .collection("items")
+      .updateOne(query2, update2);
 
-    res.status(200).json({ status: 200, data: "New item added to cart" });
+    const updatedCart = await db.collection("cart").find().toArray();
+
+    res
+      .status(200)
+      .json({
+        status: 200,
+        data: updatedCart,
+        message: "Cart has been updated",
+      });
     client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
@@ -241,8 +293,7 @@ const updateCart = async (req, res) => {
   }
 };
 
-
-// POST FOR CONFIRM ORDER
+// POST for place order
 const confirmOrder = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
@@ -250,7 +301,6 @@ const confirmOrder = async (req, res) => {
     const db = client.db("eCommerce");
 
     if (
-      !req.body._id ||
       !req.body.firstName ||
       !req.body.lastName ||
       !req.body.address ||
@@ -258,14 +308,11 @@ const confirmOrder = async (req, res) => {
     ) {
       return res.status(409).json({ status: 409, data: "Missing information" });
     }
-
-    const orderId = req.body._id;
-    const findCart = await db
-      .collection("carts")
-      .findOne({ _id: Number(orderId) });
+    const newOrderId = uuid();
+    const findCart = await db.collection("cart").find().toArray();
 
     const finalOrder = {
-      _id: req.body._id,
+      _id: newOrderId,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       address: req.body.address,
@@ -275,11 +322,10 @@ const confirmOrder = async (req, res) => {
 
     const orderResult = await db.collection("orders").insertOne(finalOrder);
 
-    orderResult &&
       res.status(200).json({
         status: 200,
         message: "New order created",
-        orderId: `Your order id ${orderId}`,
+        orderId: `Your order id ${newOrderId}`,
       });
 
     client.close();
@@ -296,7 +342,8 @@ module.exports = {
   getCompanies,
   getCompany,
   getCart,
-  createCart,
+  getOrder,
+  addCart,
   updateCart,
   confirmOrder,
 };
