@@ -81,12 +81,12 @@ const GlobalStyles = createGlobalStyle`
   button {
     background-color: var(--color-accent);
     border: none;
-    border-radius: 20px;
-    color: #fff;
+    border-radius: 25px;
+    color: black;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    padding: 12px 24px;
+    padding: 12px 70px;
     transition: all 0.3s ease;
   }
 
