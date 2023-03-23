@@ -27,7 +27,7 @@ const Category = () => {
     <Banner>
         <h1>{category}</h1>
       </Banner>
-      {!singleCategory ? (
+      {singleCategory.length === 0 ? (
         <LoadingIcon>
           <FiLoader />
         </LoadingIcon>
@@ -68,7 +68,15 @@ const ProductFeed = styled.div`
 const LoadingIcon = styled(FiLoader)`
   position: relative;
   left: 50%;
-  top: 500px;
+  top: 10px;
+  animation: spin 1s infinite linear;
+  height:80vh;
+  
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
 
 const Wrapper = styled.div``;
