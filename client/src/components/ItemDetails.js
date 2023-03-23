@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { Profiler, useEffect, useState } from "react";
 import { FiLoader } from "react-icons/fi";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const ItemDetails = () => {
   const { _id } = useParams();
-  const [product, setProduct] = useState([]);
-  const [companies, setCompanies] = useState([]);
-
+  const [product, setProduct] = useState(null);
+  const [companies, setCompanies] = useState(null);
+const [newItem, setNewItem] = useState([])
+  const navigateCart = useNavigate()
   useEffect(() => {
     fetch(`/getItem/${_id}`)
       .then((res) => res.json())
@@ -37,14 +38,49 @@ const ItemDetails = () => {
       });
   }, []);
 
-
+if (product){
+    console.log(product._id);
+}
+  const handleClick = (event) => {
+    event.preventDefault();
+  if (product) {
+    fetch("/add-item", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name: product.name,
+            price: product.price,
+            body_location: product.body_location,
+            category:product.category,
+            _id: Number (product._id),
+            imageSrc: product.imageSrc,
+            quantity : 1,
+            companyId: product.companyId}),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+  
+          if (data.status === 400 || data.status === 500) {
+            throw new Error("Error");
+          } else {
+            setNewItem(data)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   return (
     <VH>
-    {(!product && !companies) ? (
-      <LoadingIcon>
-        <FiLoader />
-      </LoadingIcon>
+    {(!product || !companies) ? (
+  <LoadingIcon>
+    <FiLoader />
+  </LoadingIcon>
     ) : (
       <Wrapper>
         <ProductFeed>
@@ -64,7 +100,9 @@ const ItemDetails = () => {
                   </Info>
                   <AddCart>
                     <Quantity>Quantity available: {item.numInStock}</Quantity>
-                    <Button disabled={item.numInStock === 0}>
+                    <Button disabled={item.numInStock === 0}
+                    onClick={handleClick}
+                    >
                       {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
                     </Button>
                   </AddCart>
@@ -114,13 +152,19 @@ const ProductFeed = styled.div`
   padding: 40px;
 `;
 
-
 const LoadingIcon = styled(FiLoader)`
   position: relative;
   left: 50%;
-  top: 600px;
-  `;
-
+  top: 10px;
+  animation: spin 1s infinite linear;
+  height:80vh;
+  
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 const Wrapper = styled.div``;
 
 export default ItemDetails;
