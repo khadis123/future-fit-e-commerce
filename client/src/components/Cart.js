@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import CartItem from "./CartItem"
 import GlobalStyles from "./GlobalStyles"
@@ -6,6 +7,7 @@ import GlobalStyles from "./GlobalStyles"
 const Cart = ()=> {
 
     const [cartItems, setCartItems] = useState(null)
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('/cart')
@@ -17,7 +19,7 @@ const Cart = ()=> {
     }, [])
 
     const handleClick = () => {
-
+        navigate('/checkout')
     }
 
     return(
@@ -45,6 +47,7 @@ const Wrapper = styled.div`
 display: flex;
 justify-content:space-around;
 padding: 25px;
+
 `
 
 const Left = styled.div`
