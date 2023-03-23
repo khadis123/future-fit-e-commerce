@@ -241,24 +241,24 @@ const updateCart = async (req, res) => {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
-
+  
     // this verifies that the item _id exist
-    const itemId = Number(req.body.item._id);
+    const itemId = Number(req.body._id);
     const findItem = await db.collection("items").findOne({ _id: itemId });
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
-
+  
     // this verifies that the item is in stock
     if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
     }
+   
 
     // this updates quantity in cart and updates stock
     const oldCartItem = await db
       .collection("cart")
-      .findOne({ _id: itemId })
-      .toArray();
+      .findOne({ _id: itemId });
 
     const query1 = { _id: itemId };
     const update1 = {
@@ -279,13 +279,11 @@ const updateCart = async (req, res) => {
 
     const updatedCart = await db.collection("cart").find().toArray();
 
-    res
-      .status(200)
-      .json({
-        status: 200,
-        data: updatedCart,
-        message: "Cart has been updated",
-      });
+    res.status(200).json({
+      status: 200,
+      message: "Cart has been updated",
+      data: updatedCart,
+    });
     client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
@@ -313,20 +311,25 @@ const confirmOrder = async (req, res) => {
 
     const finalOrder = {
       _id: newOrderId,
+      email: req.body.email,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       address: req.body.address,
-      email: req.body.email,
+      city: req.body.city,
+      province: req.body.province,
+      postalCode: req.body.postalCode,
+      country: req.body.country,
+      phone: req.body.phone,
       cart: findCart,
     };
 
     const orderResult = await db.collection("orders").insertOne(finalOrder);
 
-      res.status(200).json({
-        status: 200,
-        message: "New order created",
-        orderId: `Your order id ${newOrderId}`,
-      });
+    res.status(200).json({
+      status: 200,
+      message: "New order created",
+      orderId: `Your order id ${newOrderId}`,
+    });
 
     client.close();
   } catch (error) {
