@@ -22,7 +22,7 @@ const Header = () => {
 
       <StyledLink to={`/categories/entertainment`}>Entertainment</StyledLink>
 
-      <StyledLink to={`/categories/pets`}>Pets</StyledLink>
+      <StyledLink to={`/categories/pets%20and%20animals`}>Pets</StyledLink>
 
       <BsCart3 />
     </Wrapper>
