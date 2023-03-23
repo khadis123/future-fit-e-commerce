@@ -1,30 +1,31 @@
 import styled from "styled-components"
 import {BsCart3} from "react-icons/bs"
-import { useEffect, useState } from "react";
 
 const Header = () => {
-const [categories, setCategories] = useState()
 
-    useEffect(() => {
-        fetch("/getItems")
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data)
-            setCategories(data.data) 
-          })
-
-          .catch((error) => {
-            console.log(error);
-          });
-      }, []);
 return(
     <Wrapper>
-<h1>LOGO FutureFit</h1>
+<BackgroundImage alt="green and white background" src="../client/assets/banner_images/header_background.png"/>
+<Span>Fitness</Span>
+<Span>Lifestyle</Span>
+<Span>Medical</Span>
+<Span>Entertainment</Span>
+<Span>Pets</Span>
+
 <BsCart3/>
     </Wrapper>
     )
 
 }
+const BackgroundImage = styled.img`
+width:100%;
+background-image: url("../client/assets/banner_images/header_background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+`
+const Span = styled.span`
+
+`
 const Wrapper=styled.div`
 display:flex;
 flex-direction:row;
