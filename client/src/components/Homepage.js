@@ -29,6 +29,7 @@ const Homepage = () => {
     background-color: white;
     overflow: hidden;
     width: 100%;
+    border-bottom: 1px black solid;
   
     h6 {
       animation: marquee 30s linear infinite;
@@ -78,6 +79,9 @@ const Background = styled.img`
     font-weight: bold;
     padding: 12px 50px;
     transition: all 0.3s ease;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px black solid;
+
   `;
   
   export default Homepage;

@@ -62,6 +62,9 @@ const HeaderWrapper = styled.div`
   background-size: cover;
   height: 12vh;
   padding: 0 40px 0 14px;
+  border-bottom: 1px black solid;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
 `;
 
 const HeaderNav = styled.div`
