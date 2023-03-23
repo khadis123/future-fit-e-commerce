@@ -16,13 +16,11 @@ const Cart = ()=> {
         })
     }, [])
 
+    const handleClick = () => {
 
-    {
-        "img": "img",
-        "name": "name",
-        
     }
 
+    
     return(
     <Wrapper>
         <GlobalStyles/>
@@ -36,7 +34,7 @@ const Cart = ()=> {
         }
         <Right>
             <p></p>
-            <AddToCart>Add To Cart</AddToCart>
+            <AddToCart onClick={handleClick}>Add To Cart</AddToCart>
         </Right>
     </Wrapper>
     )

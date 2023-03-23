@@ -7,7 +7,11 @@ const CartItem = ({cartItem}) => {
   return (
     <>
     <Wrapper>
+    <>{cartItem.name}</>
 
+    <button>+</button>
+
+    
 
     </Wrapper>
     </>
