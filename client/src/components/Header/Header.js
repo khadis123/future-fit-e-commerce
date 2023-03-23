@@ -27,7 +27,7 @@ const Header = () => {
           <HeaderNavLink to={`/categories/pets%20and%20animals`}>Pets</HeaderNavLink>
         </HeaderNav>
 
-        <HeaderCartButton>
+        <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
         </HeaderCartButton>
       </HeaderWrapper>
