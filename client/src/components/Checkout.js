@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Checkout = ()=> {
+const Checkout = () => {
   //useState
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({});
@@ -22,176 +23,222 @@ const Checkout = ()=> {
   }, []);
 
   //item select handler
-//   const handleSelect = (e) => {
-//     const { value } = e.target;
-//     if (value === "") {
-//       setSelectedItem(undefined);
-//       setFormData({
-//         ...formData,
-//         item: undefined,
-//       });
-//       return;
-//     }
+  //   const handleSelect = (e) => {
+  //     const { value } = e.target;
+  //     if (value === "") {
+  //       setSelectedItem(undefined);
+  //       setFormData({
+  //         ...formData,
+  //         item: undefined,
+  //       });
+  //       return;
+  //     }
 
-//     const foundItem = items.find((item, index) => {
-//         return item.id === value;
-//       });
-//       setSelectedItem(foundItem);
-//       setFormData({
-//         ...formData,
-//         item: foundItem.id,
-//       });
-//     };
-  
-    //onSubmit handler
-    const handleSubmit = (e) => {
-      e.preventDefault();
-  
-      fetch("/add-item", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        // fname, lname, phone, address, email, price, and item.
-        body: JSON.stringify( formData ), //HERE I'M NOT SURE: order or cart should be there?
+  //     const foundItem = items.find((item, index) => {
+  //         return item.id === value;
+  //       });
+  //       setSelectedItem(foundItem);
+  //       setFormData({
+  //         ...formData,
+  //         item: foundItem.id,
+  //       });
+  //     };
+
+  //onSubmit handler
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch("/add-item", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      // fname, lname, phone, address, email, price, and item.
+      body: JSON.stringify(formData), //HERE I'M NOT SURE: order or cart should be there?
+    })
+      //sends the data to the server
+      .then((res) => res.json())
+      //receives the data back from the server
+      .then((data) => {
+        console.log(data);
+        navigate(`/confirm/${data.data.id}`);
       })
-        //sends the data to the server
-        .then((res) => res.json())
-        //receives the data back from the server
-        .then((data) => {
-          console.log(data);
-          navigate(`/confirm/${data.data.id}`);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-  
-    const handleChange = (e) => {
-      const { id, value } = e.target;
-      setFormData({
-        ...formData,
-        [id]: value,
+      .catch((error) => {
+        console.log(error);
       });
-    };
-  
-//JSX
-    return(<> 
-    
-        <h1>CHECKOUT</h1>
+  };
 
-        <>
-      <StyledSubDivForCard>
-        <StyledDivForFormContent onSubmit={handleSubmit}>
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({
+      ...formData,
+      [id]: value,
+    });
+  };
+
+  //JSX
+  return (
+    <WrapperCheckout>
+      <>
+        <StyledSubDivForCard>
+          <StyledDivForFormContent onSubmit={handleSubmit}>
             <h2>Shipping information</h2>
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="email"></label>
+                <input
+                  placeholder="Email"
+                  type="text"
+                  id="email"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledRowsForForm>
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="fname"> </label>
+                <input
+                  placeholder="First Name"
+                  type="text"
+                  id="fname"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="lname"></label>
+                <input
+                  placeholder="Last Name"
+                  type="text"
+                  id="lname"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledRowsForForm>
+
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="address"></label>
+                <input
+                  placeholder="Address"
+                  type="text"
+                  id="address"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledRowsForForm>
+
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="apartment"></label>
+                <input
+                  placeholder="Apartment"
+                  type="text"
+                  id="apartment"
+                  onChange={handleChange}
+                />
+              </div>
+            </StyledRowsForForm>
+
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="city"></label>
+                <input
+                  placeholder="City"
+                  type="text"
+                  id="city"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="province"></label>
+                <input
+                  placeholder="Province"
+                  type="text"
+                  id="province"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="postalcode"></label>
+                <input
+                  placeholder="Postal code"
+                  type="text"
+                  id="postalcode"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledRowsForForm>
+
+            <StyledRowsForForm>
+              <div>
+                <label htmlFor="country"></label>
+                <input
+                  placeholder="Country"
+                  type="text"
+                  id="country"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <label htmlFor="phone"></label>
+                <input
+                  placeholder="Phone number"
+                  type="phone"
+                  id="phone"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            </StyledRowsForForm>
 
             <div>
-            <label htmlFor="email">Email: </label>
-            <input type="text" id="email" onChange={handleChange} />
-          </div>
+              <StyledCartLink to="/cart">Back to cart</StyledCartLink>
+            </div>
+          </StyledDivForFormContent>
+        </StyledSubDivForCard>
+      </>
 
-          <div>
-            <label htmlFor="fname">First Name: </label>
-            <input type="text" id="fname" onChange={handleChange} />
-          </div>
+      <>
+        <StyledRightColumn>
+          <h4>Total $: </h4>
+          <Button>Place your oder</Button>
+        </StyledRightColumn>
+      </>
+    </WrapperCheckout>
+  );
+};
 
-          <div>
-            <label htmlFor="lname">Last Name: </label>
-            <input type="text" id="lname" onChange={handleChange} />
-          </div>
+export default Checkout;
 
-
-
-          <div>
-            <label htmlFor="address">Address: </label>
-            <input type="text" id="address" onChange={handleChange} />
-          </div>
-
-
-          <div>
-            <label htmlFor="apartment">Apartment: </label>
-            <input type="text" id="apartment" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="street">Street: </label>
-            <input type="text" id="street" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="city">City: </label>
-            <input type="text" id="city" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="province">Province: </label>
-            <input type="text" id="province" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="postalcode">Postal code: </label>
-            <input type="text" id="postalcode" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="country">Country: </label>
-            <input type="text" id="country" onChange={handleChange} />
-          </div>
-
-          <div>
-            <label htmlFor="phone">Phone number: </label>
-            <input type="phone" id="phone" onChange={handleChange} />
-          </div>
-
-         
-          <div>
-            <Button
-              type="submit"
-              disabled={
-                Object.keys(formData).length < 12 ||
-                Object.values(formData).some((e) => e === "")
-              }
-            >
-              Place your oder
-            </Button>
-          </div>
-        </StyledDivForFormContent>
-      </StyledSubDivForCard>
-    </>
-
-<>
-<StyledRightColumn>
-<p>Subtotal</p>
-<p>Shipping fee</p>
-<p>Taxes</p>
-<p>Total</p>
-
-</StyledRightColumn>
-</>
-
-<h3>back to cart</h3>
-
-</>
-
-
-
-    )
-
-}
-
-export default Checkout
+const WrapperCheckout = styled.div`
+  background-color: #edf0f2;
+  display: flex;
+  flex-direction: row;
+`;
 
 const Button = styled.button`
-  width: fit-content;
+  width: max-content;
   height: fit-content;
   background-color: #ceff1a;
   padding: 10px 30px;
   border-radius: 30px;
   text-decoration: none;
   color: black;
-  font-size: 30px;
-  margin: 20px;
+  font-size: 20px;
+  margin: 10px;
   display: block;
   align-content: center;
 `;
@@ -200,7 +247,7 @@ const StyledSubDivForCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  width: 600px;
+  width: 700px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   overflow: hidden;
@@ -218,19 +265,31 @@ const StyledDivForFormContent = styled.form`
   flex-wrap: wrap;
   flex-direction: column;
   margin: 10px;
-  padding: 5px;
-  justify-content: center;
+  padding: 10px;
+  justify-content: left;
   font-family: "Lora", serif;
   font-size: large;
-  line-height: 1.5;
-  align-items: flex-end;
+  line-height: 2;
+  align-items: flex-start;
 `;
 
 const StyledRightColumn = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  padding: 5px;
-  width: 150px;
+  width: 250px;
   height: fit-content;
-`
+  padding: 20px;
+  margin-right: 30px;
+  margin-top: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+`;
+const StyledCartLink = styled(Link)`
+  font-weight: 700;
+`;
+const StyledRowsForForm = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 650px;
+  height: fit-content;
+`;
