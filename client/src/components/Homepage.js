@@ -12,7 +12,7 @@ const Homepage = () => {
         <Wrapper>
             <Background src={homepageBackground} alt="women looking at her watch"/>
             <ButtonArea>
-                <Button to={'/getItems'}>Shop</Button>
+                <Button to={'/items'}>Shop</Button>
             </ButtonArea>
         </Wrapper>
         </>
