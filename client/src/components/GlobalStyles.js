@@ -69,8 +69,12 @@ const GlobalStyles = createGlobalStyle`
 
   /* Links */
   a {
-    color: var(--color-accent);
+    color: black;
     text-decoration: none;
+  }
+
+  a:hover {
+    color: #444444;
   }
 
   /* Buttons */
