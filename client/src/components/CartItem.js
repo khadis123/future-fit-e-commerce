@@ -5,12 +5,14 @@ import styled from "styled-components"
 const CartItem = ({cartItem}) => {
 
   const [companies, setCompanies] = useState(null)
+
+  const [quantity, setQuantity] = useState(cartItem.quantity)
+
   let companyName = ""
   let click = 1;
 
   if (companies) {
     companyName = companies.find(company => cartItem.companyId === company._id)
-    console.log(companyName)
   }
 
   useEffect(() => {
@@ -22,8 +24,28 @@ const CartItem = ({cartItem}) => {
   },[])
   //At the end of the PATCH, using the res.body to update the quantity between two buttons
 
-  const handleClick = {
-    
+  const handleClick = (ev) => {
+    ev.preventDefault();
+
+    if (ev.target.value === "-") {
+      click = -1;
+    }
+
+    fetch('/update-cart', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        ...cartItem,
+        quantity: click
+      }),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"      
+      },
+    })
+    .then((res) => res.json())
+    .then((parsedData) => {
+      setQuantity(quantity + click)
+    });
   }
 
   return (
@@ -39,9 +61,9 @@ const CartItem = ({cartItem}) => {
     </Col>
     <Col>
       <Row>
-      <button>-</button>
-      <p>{cartItem.quantity}</p>
-      <button>+</button>
+      <button onClick={(ev) => handleClick(ev)} value={"-"}>-</button>
+      <p>{quantity}</p>
+      <button onClick={(ev) => handleClick(ev)} value={"+"}>+</button>
       </Row>
       <p>total: {}</p>
     </Col>
