@@ -12,14 +12,14 @@ const Header = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch(`/getItems/${category}`)
+    fetch(`/getItems`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 400 || data.status === 500) {
           throw new Error("Error");
         }
         console.log(data);
-        setItems(data.category);
+        setItems(data);
       })
       .catch((error) => {
         console.log(error);
@@ -28,17 +28,16 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Link to="/">
-        <Logo src={logo} alt="logo FutureFit" />
+    <Link to="/">
+      <Logo src={logo} alt="logo FutureFit" />
+    </Link>
+    {Array.isArray(items) && items.map((item) => (
+      <Link key={item.category} to={`/items/${item.category}`}>
+        {item.category}
       </Link>
-      <Link to={`/items/${category}`}>Fitness</Link>
-      <Link to={`/items/${category}`}>Lifestyle</Link>
-      <Link to={`/items/${category}`}>Medical</Link>
-      <Link to={`/items/${category}`}>Entertainment</Link>
-      <Link to={`/items/${category}`}>Pets</Link>
-
-      <BsCart3 />
-    </Wrapper>
+    ))}
+    <BsCart3 />
+  </Wrapper>
   );
 };
 
