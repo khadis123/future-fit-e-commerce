@@ -76,7 +76,7 @@ const Background = styled.img`
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    padding: 12px 70px;
+    padding: 12px 50px;
     transition: all 0.3s ease;
   `;
   
