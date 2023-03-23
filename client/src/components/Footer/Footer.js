@@ -28,6 +28,7 @@ const Icons = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 30px;
+  background-color: #f5f5f5;
 `;
 
 const Link = styled(NavLink)`
@@ -40,5 +41,6 @@ const Wrapper = styled.div`
   justify-content: space-around;
   padding: 40px;
   align-items: center;
+  background-color: #f5f5f5;
 `;
 export default Footer;
