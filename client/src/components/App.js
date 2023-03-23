@@ -9,6 +9,7 @@ import ContactUs from "./Footer/ContactUs";
 import SingleItem from "./SingleItem";
 import Items from "./Items";
 import Category from "../Category";
+import ItemDetails from "./ItemDetails";
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
         <Route path="/about" element={<AboutUs/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
-        <Route path="/items/:_id" element={<SingleItem/>}/>
+        <Route path="/items/:_id" element={<ItemDetails/>}/>
         <Route path="/categories/:category" element={<Category/>}/>
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
