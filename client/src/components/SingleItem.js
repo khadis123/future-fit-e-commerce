@@ -53,7 +53,7 @@ const Product = styled(NavLink)`
   justify-content: space-between;
   height: 300px;
   background-color: white;
-  border-radius: 0px;
+  border-radius: 2px;
   padding: 20px;
   border: 1px black solid;
   text-decoration: none;
