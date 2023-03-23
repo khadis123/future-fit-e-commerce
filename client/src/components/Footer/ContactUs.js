@@ -78,7 +78,7 @@ const SectionLink = styled.a`
     border: 1px black solid;
 
   &:hover {
-    color: #b2ff59;
+    background-color: #d4ff8a;
   }
 `;
 

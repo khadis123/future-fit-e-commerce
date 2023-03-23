@@ -81,7 +81,9 @@ const Background = styled.img`
     transition: all 0.3s ease;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     border: 1px black solid;
-
+    &:hover {
+    background-color: #d4ff8a;
+  }
   `;
   
   export default Homepage;
