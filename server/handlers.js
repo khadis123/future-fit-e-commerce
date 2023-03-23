@@ -201,13 +201,39 @@ const createCart = async (req, res) => {
   }
 };
 
+// PATCH UPDATES CART
 const updateCart = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
     await client.connect();
-
     const db = client.db("eCommerce");
 
+    // this verifies that the item _id exist
+    const itemId = req.body.item._id;
+    const findItem = await db
+      .collection("items")
+      .findOne({ _id: Number(itemId) });
+
+    if (!findItem) {
+      return res.status(400).json({ status: 400, data: "Item doesn't exist" });
+    }
+
+    // this verifies that the item is in stock
+    if (findItem.numInStock <= req.body.quantity) {
+      return res.status(400).json({ status: 400, data: "Item not in stock" });
+    }
+    ////////
+
+    const orderId = req.body.orderId;
+    const oldCart = await db.collection("carts").findOne({ _id: orderId });
+
+    const updatedCart = oldCart.cart.push(req.body.item);
+
+    const query = { _id: orderId };
+    const update = { $set: { updatedCart } };
+    const newCart = await db.collection("carts").updateOne(query, update);
+
+    res.status(200).json({ status: 200, data: "New item added to cart" });
     client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
@@ -215,6 +241,8 @@ const updateCart = async (req, res) => {
   }
 };
 
+
+// POST FOR CONFIRM ORDER
 const confirmOrder = async (req, res) => {
   try {
     const client = new MongoClient(MONGO_URI, options);
