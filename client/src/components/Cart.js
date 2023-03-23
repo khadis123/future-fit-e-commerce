@@ -20,7 +20,6 @@ const Cart = ()=> {
 
     }
 
-    
     return(
     <Wrapper>
         <GlobalStyles/>
@@ -34,7 +33,7 @@ const Cart = ()=> {
         }
         <Right>
             <p></p>
-            <AddToCart onClick={handleClick}>Add To Cart</AddToCart>
+            <AddToCart onClick={handleClick}>Checkout</AddToCart>
         </Right>
     </Wrapper>
     )
