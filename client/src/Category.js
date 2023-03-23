@@ -24,6 +24,9 @@ const Category = () => {
 
   return (
     <>
+    <Banner>
+        <h1>{category}</h1>
+      </Banner>
       {!singleCategory ? (
         <LoadingIcon>
           <FiLoader />
@@ -32,13 +35,10 @@ const Category = () => {
         <Wrapper>
           <ProductFeed>
             {singleCategory.map((item) => {
-                return (
-                    <>
-                <SingleItem 
-                key={item._id}
-                   item={item}
-                    />
-                    </>
+              return (
+                <>
+                  <SingleItem key={item._id} item={item} />
+                </>
               );
             })}
           </ProductFeed>
@@ -48,11 +48,22 @@ const Category = () => {
   );
 };
 
+const Banner = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: #f5f5f5;
+`;
+
 const ProductFeed = styled.div`
-display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px; 
-  padding:40px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 40px;
+  padding: 100px 150px 100px 150px;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0 auto;
 `;
 const LoadingIcon = styled(FiLoader)`
   position: relative;
@@ -60,7 +71,6 @@ const LoadingIcon = styled(FiLoader)`
   top: 500px;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div``;
 
-`;
 export default Category;

@@ -6,10 +6,10 @@ import logo from "../images/FutureFit.png";
 import GlobalStyles from "../GlobalStyles";
 
 const Header = () => {
-
   return (
     <>
       <GlobalStyles />
+      
       <HeaderWrapper>
         <HeaderLink to="/">
           <HeaderLogo src={logo} alt="logo FutureFit" />
@@ -17,23 +17,21 @@ const Header = () => {
 
         <HeaderNav>
           <HeaderNavLink to={`/categories/fitness`}>Fitness</HeaderNavLink>
-
           <HeaderNavLink to={`/categories/lifestyle`}>Lifestyle</HeaderNavLink>
-
           <HeaderNavLink to={`/categories/medical`}>Medical</HeaderNavLink>
-
           <HeaderNavLink to={`/categories/entertainment`}>Entertainment</HeaderNavLink>
-
           <HeaderNavLink to={`/categories/pets%20and%20animals`}>Pets</HeaderNavLink>
         </HeaderNav>
 
-        <HeaderCartButton>
+        <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
         </HeaderCartButton>
       </HeaderWrapper>
     </>
   );
 };
+
+
 
 const HeaderNavLink = styled(NavLink)`
   text-decoration: none;
