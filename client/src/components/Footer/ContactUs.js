@@ -34,7 +34,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 65vh;
+  padding-bottom: 50px;
 `;
 
 const Title = styled.h1`
