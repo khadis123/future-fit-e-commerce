@@ -54,7 +54,7 @@ const Checkout = ()=> {
           "Content-Type": "application/json",
         },
         // fname, lname, phone, address, email, price, and item.
-        body: JSON.stringify({ order: formData }), //HERE I'M NOT SURE: order or cart should be there?
+        body: JSON.stringify( formData ), //HERE I'M NOT SURE: order or cart should be there?
       })
         //sends the data to the server
         .then((res) => res.json())
