@@ -1,12 +1,15 @@
 import FollowUs from "./FollowUs";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
+import logo from "../images/FutureFit.png";
 
 const Footer = () => {
   return (
     <>
       <Wrapper>
-        <Link to="/">LOGO</Link>
+        <Link to="/">
+          <Logo src={logo} alt="logo FutureFit" />
+        </Link>
         <Link to="/contact">Contact us</Link>
         <Link to="/about">About us</Link>
       </Wrapper>
@@ -17,6 +20,9 @@ const Footer = () => {
     </>
   );
 };
+const Logo = styled.img`
+  width: 150px;
+`;
 const Icons = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,5 +38,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+  padding: 40px;
+  align-items: center;
 `;
 export default Footer;

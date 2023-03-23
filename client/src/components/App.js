@@ -22,7 +22,7 @@ function App() {
         <Route path="/about" element={<AboutUs/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
-        <Route path="/items/:itemId" element={<SingleItem/>}/>
+        <Route path="/items/:_id" element={<SingleItem/>}/>
         <Route path="/items/:category" element={<Category/>}/>
 
         <Route path="" element={<h1>404: Oops!</h1>} />

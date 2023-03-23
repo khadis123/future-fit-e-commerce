@@ -1,6 +1,9 @@
+import styled from "styled-components";
+
 const AboutUs = () => {
   return (
     <>
+    <Wrapper>
       <p>
         Welcome to FutureFit! We are a team of innovators and tech enthusiasts
         who are dedicated to creating high-quality technological products for a
@@ -34,8 +37,12 @@ const AboutUs = () => {
         Thank you for your trust. We look forward to helping you live your best
         life with our innovative technological products.
       </p>
+      </Wrapper>
     </>
   );
 };
 
+const Wrapper = styled.div`
+height:100vh;
+`
 export default AboutUs;
