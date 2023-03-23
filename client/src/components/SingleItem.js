@@ -18,7 +18,13 @@ const SingleItem = ({ item }) => {
 
 const Img = styled.img`
   height: 150px;
+  width: 200px;
   object-fit: contain;
+  align-self: center;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
 `;
 
 const Price = styled.div`
@@ -49,9 +55,11 @@ const Product = styled(NavLink)`
   background-color: white;
   border-radius: 0px;
   padding: 20px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: 1px black solid;
   text-decoration: none;
   color: inherit;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
 `;
 
 const Wrapper = styled.div`

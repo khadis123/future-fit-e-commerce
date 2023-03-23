@@ -88,10 +88,13 @@ const GlobalStyles = createGlobalStyle`
     font-weight: bold;
     padding: 12px 50px;
     transition: all 0.3s ease;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px black solid;
+
   }
 
   button:hover {
-    background-color: #b2ff59;
+    background-color: #d4ff8a;
   }
 
   /* Navigation */

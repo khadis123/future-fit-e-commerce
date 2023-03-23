@@ -25,7 +25,7 @@ const Category = () => {
   return (
     <>
     <Banner>
-        <h1>{category}</h1>
+    <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       </Banner>
       {singleCategory.length === 0 ? (
         <LoadingIcon>
@@ -52,8 +52,10 @@ const Banner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80px;
+  height: 200px;
   background-color: #f5f5f5;
+  border-bottom: 1px black solid;
+
 `;
 
 const ProductFeed = styled.div`
