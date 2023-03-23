@@ -15,7 +15,7 @@ const batchImport = async () => {
   await client.connect();
   const db = client.db("eCommerce");
 
-  
+  console.log("connecter");
   await db.collection("items").insertMany(items);
   await db.collection("companies").insertMany(companies);
 
