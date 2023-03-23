@@ -10,7 +10,8 @@ const {
   getCompanies,
   getCompany,
   getCart,
-  createCart,
+  getOrder,
+  addCart,
   updateCart,
   confirmOrder,
 } = require("./handlers");
@@ -45,12 +46,15 @@ express()
   .get("/companies", getCompanies)
   .get("/companies/:_id", getCompany)
 
-  .get("/cart/:orderId", getCart)
+  .get("/cart", getCart)
 
-  .post("/add-item", createCart)
+  .get("/confirmation/:orderId", getOrder)
+
+  .post("/add-item", addCart)
   .patch("/update-cart", updateCart)
 
-  .post("/confirmation/:orderId", confirmOrder)
+  .post("/confirmation", confirmOrder)
+
 
   /*********************************************************/
 
