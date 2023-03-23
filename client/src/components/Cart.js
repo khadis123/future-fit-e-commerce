@@ -11,18 +11,24 @@ const Cart = ()=> {
         fetch('/cart')
         .then(res => res.json())
         .then(parsedData => {
-            console.log(parsedData)
+            console.log(parsedData.data)
             setCartItems(parsedData.data)
         })
     }, [])
 
+
+    {
+        "img": "img",
+        "name": "name",
+        
+    }
 
     return(
     <Wrapper>
         <GlobalStyles/>
         {!cartItems ? <>loading</> :
         <Left>
-            <>Your shopping cart</>
+            <p>Your shopping cart</p>
             {
                 cartItems.map(cartItem => <CartItem cartItem={cartItem}/>)
             }
@@ -41,6 +47,7 @@ export default Cart
 const Wrapper = styled.div`
 display: flex;
 justify-content:space-around;
+padding: 25px;
 `
 
 const Left = styled.div`
