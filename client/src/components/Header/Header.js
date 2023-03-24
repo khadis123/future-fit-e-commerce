@@ -1,61 +1,101 @@
 import styled from "styled-components";
 import { BsCart3 } from "react-icons/bs";
-import { NavLink, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import headerBackground from "../images/header_background.png";
 import logo from "../images/FutureFit.png";
-
+import GlobalStyles from "../GlobalStyles";
 
 const Header = () => {
-  const { category } = useParams();
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch(`/getItems`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status === 400 || data.status === 500) {
-          throw new Error("Error");
-        }
-        console.log(data);
-        setItems(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
   return (
-    <Wrapper>
-    <Link to="/">
-      <Logo src={logo} alt="logo FutureFit" />
-    </Link>
-    {Array.isArray(items) && items.map((item) => (
-      <Link key={item.category} to={`/items/${item.category}`}>
-        {item.category}
-      </Link>
-    ))}
-    <BsCart3 />
-  </Wrapper>
+    <>
+      <GlobalStyles />
+      
+      <HeaderWrapper>
+        <HeaderLink to="/">
+          <HeaderLogo src={logo} alt="logo FutureFit" />
+        </HeaderLink>
+
+        <HeaderNav>
+          <HeaderNavLink to={`/categories/fitness`}>Fitness</HeaderNavLink>
+          <HeaderNavLink to={`/categories/lifestyle`}>Lifestyle</HeaderNavLink>
+          <HeaderNavLink to={`/categories/medical`}>Medical</HeaderNavLink>
+          <HeaderNavLink to={`/categories/entertainment`}>Entertainment</HeaderNavLink>
+          <HeaderNavLink to={`/categories/pets%20and%20animals`}>Pets</HeaderNavLink>
+        </HeaderNav>
+
+        <HeaderCartButton as={NavLink} to="/cart">
+          <BsCart3 />
+        </HeaderCartButton>
+      </HeaderWrapper>
+    </>
   );
 };
 
-const Link = styled(NavLink)`
+
+
+const HeaderNavLink = styled(NavLink)`
   text-decoration: none;
   color: black;
-`;
-const Logo = styled.img`
-  width: 400px;
+  font-weight: bold;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  padding: 0 25px 0 25px;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 0 10px 0 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 0 5px 0 5px;
+  }
 `;
 
-const Wrapper = styled.div`
+const HeaderLink = styled(NavLink)`
+  text-decoration: none;
+  color: black;
+ 
+`;
+
+const HeaderLogo = styled.img`
+ height: 100px;
+  margin-right: 20px;
+
+  @media screen and (max-width: 768px) {
+    height: 40px;
+  }
+`;
+
+const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   background-image: url(${headerBackground});
-  padding: 60px;
+  background-size: cover;
+  height: 12vh;
+  padding: 0 40px 0 14px;
+  border-bottom: 1px black solid;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 `;
+
+const HeaderNav = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+`;
+
+const HeaderCartButton = styled.a`
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  color: black;
+  cursor: pointer;
+  margin-left: 30px;
+`;
+
 
 export default Header;

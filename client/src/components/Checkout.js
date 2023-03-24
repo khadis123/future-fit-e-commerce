@@ -12,6 +12,8 @@ const Checkout = () => {
 
   const navigate = useNavigate();
 
+  let total = 0;
+
   //useEffect
   useEffect(() => {
     //fetch all my items
@@ -47,17 +49,33 @@ const Checkout = () => {
   //     };
 
   //onSubmit handler
-  const handleSubmit = (e) => {
+  const handleClick = (e) => {
     e.preventDefault();
+    console.log(formData);
 
-    fetch("/add-item", {
+
+    fetch("/confirmation", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       // fname, lname, phone, address, email, price, and item.
-      body: JSON.stringify(formData), //HERE I'M NOT SURE: order or cart should be there?
+      body: JSON.stringify(
+        {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        email: formData.email,
+        apartment: formData.apartment,
+        city: formData.city,
+        province: formData.province,
+        postalcode: formData.postalcode,
+        country: formData.country,
+        phone: formData.phone
+
+    }
+        ), //HERE I'M NOT SURE: order or cart should be there?
     })
       //sends the data to the server
       .then((res) => res.json())
@@ -78,13 +96,19 @@ const Checkout = () => {
       [id]: value,
     });
   };
+  cartItems.map((cartItem) => {
+
+
+
+    total = total + (Number((cartItem.price).slice(1)) * cartItem.quantity);
+  })
 
   //JSX
   return (
     <WrapperCheckout>
       <>
         <StyledSubDivForCard>
-          <StyledDivForFormContent onSubmit={handleSubmit}>
+          <StyledDivForFormContent>
             <h2>Shipping information</h2>
             <StyledRowsForForm>
               <div>
@@ -100,22 +124,22 @@ const Checkout = () => {
             </StyledRowsForForm>
             <StyledRowsForForm>
               <div>
-                <label htmlFor="fname"> </label>
+                <label htmlFor="firstName"> </label>
                 <input
                   placeholder="First Name"
                   type="text"
-                  id="fname"
+                  id="firstName"
                   onChange={handleChange}
                   required
                 />
               </div>
 
               <div>
-                <label htmlFor="lname"></label>
+                <label htmlFor="lastName"></label>
                 <input
                   placeholder="Last Name"
                   type="text"
-                  id="lname"
+                  id="lastName"
                   onChange={handleChange}
                   required
                 />
@@ -215,21 +239,20 @@ const Checkout = () => {
 
       <>
         <StyledRightColumn>
-          <h4>Total $: </h4>
-          {cartItems.length &&
-                cartItems.map((cartItem) => {
-                    // let total = Number((cartItem.price).slice(1)) * quantity;
-                    console.log(cartItem["quantity"])
-                    console.log(cartItem["price"])
-
-                    console.log("cartItem: ", cartItem)
-                  return (
-                    <option key={cartItem.id} value={cartItem.id}>
-                        {cartItem.price} 
-                        </option>
-                  );
-                })}
-          <Button>Place your oder</Button>
+          <h4>Total $: {total}</h4>
+          
+             
+                    {/* // console.log(cartItem["quantity"])
+                    // console.log(cartItem["price"])
+console.log(total)
+                    // console.log("cartItem: ", cartItem)
+                //   return (
+                //     <option key={cartItem.id} value={cartItem.id}>
+                //         {cartItem.price} 
+                //         </option>
+                //   ); */}
+                
+          <Button onClick={(e) => handleClick(e)}>Place your oder</Button>
         </StyledRightColumn>
       </>
     </WrapperCheckout>

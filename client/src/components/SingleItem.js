@@ -1,37 +1,69 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+
+import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const SingleItem = () => {
-const {_id} = useParams();
-const [singleItem, setSingleItem] = useState([]);
+const SingleItem = ({ item }) => {
+  return (
+    <Wrapper>
+      <Product to={`/items/${item._id}`}>
+        <Img src={item.imageSrc} />
+        <Naming>
+          <Name>{item.name}</Name>
+          <Price>{item.price}</Price>
+        </Naming>
+      </Product>
+    </Wrapper>
+  );
+};
 
-    useEffect(() => {
-        fetch(`/getItem/${_id}`)
-          .then((res) => res.json())
-          .then((data) => {
-            if (data.status === 400 || data.status === 500) {
-              throw new Error("Error");
-            }
-            console.log(data); 
-            setSingleItem(data)
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, []);
+const Img = styled.img`
+  height: 150px;
+  width: 200px;
+  object-fit: contain;
+  align-self: center;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
 
+const Price = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+`;
 
-    return(
-        <Wrapper>
+const Name = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
 
-        <h1>SINGLE ITEM</h1>
-        </Wrapper>
-    )
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
+const Naming = styled.div`
+  margin-top: 10px;
+`;
 
-}
-const Wrapper =styled.div`
-height:100vh;
-`
-export default SingleItem
+const Product = styled(NavLink)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
+  background-color: white;
+  border-radius: 2px;
+  padding: 20px;
+  border: 1px black solid;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+`;
+
+const Wrapper = styled.div`
+  height: 100%;
+`;
+
+export default SingleItem;

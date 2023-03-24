@@ -69,25 +69,32 @@ const GlobalStyles = createGlobalStyle`
 
   /* Links */
   a {
-    color: var(--color-accent);
+    color: black;
     text-decoration: none;
+  }
+
+  a:hover {
+    color: #444444;
   }
 
   /* Buttons */
   button {
     background-color: var(--color-accent);
     border: none;
-    border-radius: 4px;
-    color: #fff;
+    border-radius: 25px;
+    color: black;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    padding: 12px 24px;
+    padding: 12px 50px;
     transition: all 0.3s ease;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px black solid;
+
   }
 
   button:hover {
-    background-color: #b2ff59;
+    background-color: #d4ff8a;
   }
 
   /* Navigation */
