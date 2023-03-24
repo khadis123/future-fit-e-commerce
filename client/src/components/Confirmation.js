@@ -11,7 +11,7 @@ const Confirmation = ()=> {
         fetch(`/confirmation/${orderId}`)
         .then(res => res.json())
         .then(parsedData => {
-            setOrder(parsedData.data)
+            setOrder(parsedData)
         })
         .catch(error => {
             console.log(error)
