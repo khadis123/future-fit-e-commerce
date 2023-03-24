@@ -24,7 +24,7 @@ const Category = () => {
 
   return (
     <>
-    <Banner>
+    <Banner category={category}>
     <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       </Banner>
       {singleCategory.length === 0 ? (
@@ -52,10 +52,11 @@ const Banner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  background-color: #f5f5f5;
+  height: 300px;
   border-bottom: 1px black solid;
-
+  background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase()}.png`});
+  background-size: cover;
+  background-position: center;
 `;
 
 const ProductFeed = styled.div`
