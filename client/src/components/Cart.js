@@ -28,6 +28,10 @@ const Cart = ({countItem, setCountItem, itemFetching}) => {
     navigate("/checkout");
   };
 
+  const handleBackClick = () => {
+    window.history.back();
+  };
+
   return (
     <Wrapper>
       <GlobalStyles />
@@ -36,7 +40,10 @@ const Cart = ({countItem, setCountItem, itemFetching}) => {
           <FiLoader />
         </LoadingIcon>
       ) : (
+        <>
+          <Button onClick={handleBackClick}>BACK</Button>
         <Left>
+
           {cartItems.length === 0 ? (
             <p>Your shopping cart is empty</p>
           ) : (
@@ -44,9 +51,10 @@ const Cart = ({countItem, setCountItem, itemFetching}) => {
           )}
 
           {cartItems.map((cartItem) => (
-            <CartItem theCartFetch={theCartFetch} cartItem={cartItem} />
+            <CartItem theCartFetch={theCartFetch} cartItem={cartItem} itemFetching={itemFetching} />
           ))}
         </Left>
+        </>
       )}
       <Right>
         <p></p>
@@ -59,7 +67,7 @@ const Cart = ({countItem, setCountItem, itemFetching}) => {
 };
 
 export default Cart;
-
+const Button=styled.button``
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;

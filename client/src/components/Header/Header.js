@@ -9,10 +9,6 @@ import { useEffect, useState } from "react";
 
 const Header = ({itemFetching, countItem, setCountItem}) => {
 
-  useEffect(() => {
-
-    itemFetching();
-  }, []);
 
   return (
     <>
@@ -102,6 +98,7 @@ padding:5px;
 border-radius: 10px;
 top:-20px;
 right:5px;
+font-size:20px;
 `
 
 const HeaderCartButton = styled.a`

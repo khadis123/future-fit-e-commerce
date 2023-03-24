@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
 
-const CartItem = ({ cartItem, theCartFetch }) => {
+const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const [item, setItem] = useState(null);
@@ -73,6 +73,7 @@ const CartItem = ({ cartItem, theCartFetch }) => {
       },
     }).then(() => {
       theCartFetch();
+      itemFetching();
     });
   };
 

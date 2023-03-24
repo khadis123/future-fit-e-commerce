@@ -11,12 +11,15 @@ import { useState } from "react";
 import Items from "./Items";
 import Category from "../Category";
 import ItemDetails from "./ItemDetails";
+import { useEffect } from "react";
 
 function App() {
 
   const [countItem, setCountItem] = useState(null);
   
+  
   //Fetching the data from the cart to know what we have in the cart
+  
   const itemFetching = () => {
     fetch("/cart")
       .then((res) => res.json())
@@ -25,6 +28,10 @@ function App() {
         setCountItem(data.data);
       });
   };
+useEffect(()=>{
+
+itemFetching();
+}, []) 
 
   return (
     <BrowserRouter>
