@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Checkout = () => {
+const Checkout = ({setOrderNum}) => {
   //useState
   const [formData, setFormData] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
@@ -55,8 +55,7 @@ const Checkout = () => {
       .then((res) => res.json())
       //receives the data back from the server
       .then((data) => {
-        console.log(data);
-        navigate(`/confirmation/${data.data.orderId}`);
+        navigate(`/confirmation/${data.orderId}`);
       })
       .catch((error) => {
         console.log(error);

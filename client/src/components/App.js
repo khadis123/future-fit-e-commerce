@@ -16,7 +16,7 @@ import { useEffect } from "react";
 function App() {
 
   const [countItem, setCountItem] = useState(null);
-  
+
   
   //Fetching the data from the cart to know what we have in the cart
   
