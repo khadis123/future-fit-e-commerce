@@ -38,9 +38,19 @@ const HeaderNavLink = styled(NavLink)`
   color: black;
   font-weight: bold;
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 22px;
   padding: 0 25px 0 25px;
   cursor: pointer;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 0 10px 0 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 0 5px 0 5px;
+  }
 `;
 
 const HeaderLink = styled(NavLink)`
@@ -50,7 +60,12 @@ const HeaderLink = styled(NavLink)`
 `;
 
 const HeaderLogo = styled.img`
-  width: 350px;
+ height: 100px;
+  margin-right: 20px;
+
+  @media screen and (max-width: 768px) {
+    height: 40px;
+  }
 `;
 
 const HeaderWrapper = styled.div`
@@ -64,12 +79,13 @@ const HeaderWrapper = styled.div`
   padding: 0 40px 0 14px;
   border-bottom: 1px black solid;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-
 `;
 
 const HeaderNav = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  margin-left: auto;
 `;
 
 const HeaderCartButton = styled.a`
@@ -78,7 +94,8 @@ const HeaderCartButton = styled.a`
   font-size: 24px;
   color: black;
   cursor: pointer;
-  margin-left: 24px;
+  margin-left: 30px;
 `;
+
 
 export default Header;

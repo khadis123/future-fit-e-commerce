@@ -135,7 +135,8 @@ const Name = styled.p`
   font-family: var(--font-body);
 `;
 
-const VH = styled.div``;
+const VH = styled.div`
+`;
 
 const Button = styled.button`
 width: 250px;
@@ -165,17 +166,19 @@ font-family: var(--font-body);
 const Info = styled.div`
   display: flex;
   flex-direction: column;
+  padding-right: 100px;
 `;
 
 const Img = styled.img`
   height: 100%;
   width: 250px;
-  margin: 50px 150px 50px 50px;
+  margin: 50px 150px 50px 200px;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  align-content: center;
 `;
 
 const LoadingIcon = styled(FiLoader)`
