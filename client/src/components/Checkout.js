@@ -50,6 +50,7 @@ const Checkout = () => {
 
   //onSubmit handler
   const handleClick = (e) => {
+    total = 0;
     e.preventDefault();
     console.log(formData);
 
