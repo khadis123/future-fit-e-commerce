@@ -57,6 +57,11 @@ const Banner = styled.div`
   background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase()}.png`});
   background-size: cover;
   background-position: center;
+
+  h1 {
+    color: var(--color-accent);
+    text-shadow: 1px 1px 1px #000;
+  }
 `;
 
 const ProductFeed = styled.div`
