@@ -333,7 +333,7 @@ const confirmOrder = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: "New order created",
-      orderId: `Your order id ${newOrderId}`,
+      orderId: newOrderId,
     });
   } catch (error) {
     res.status(500).json({ status: 500, message: error.message });
