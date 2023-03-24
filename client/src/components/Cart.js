@@ -9,19 +9,23 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const theCartFetch = () => {
     fetch("/cart")
       .then((res) => res.json())
       .then((parsedData) => {
         console.log(parsedData.data);
         setCartItems(parsedData.data);
       });
+  };
+
+  useEffect(() => {
+    theCartFetch();
   }, []);
 
   const handleClick = () => {
     navigate("/checkout");
   };
-  
+
   return (
     <Wrapper>
       <GlobalStyles />
@@ -33,7 +37,7 @@ const Cart = () => {
         <Left>
           <p>Your shopping cart</p>
           {cartItems.map((cartItem) => (
-            <CartItem cartItem={cartItem} />
+            <CartItem theCartFetch={theCartFetch} cartItem={cartItem} />
           ))}
         </Left>
       )}
