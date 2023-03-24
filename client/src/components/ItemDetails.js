@@ -12,6 +12,15 @@ const ItemDetails = () => {
   const [newItem, setNewItem] = useState([]);
 
   const navigateCart = useNavigate();
+
+  const productFetch = () => {
+    fetch(`/getItem/${_id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct([data.data]);
+      });
+  };
+
   useEffect(() => {
     fetch(`/getItem/${_id}`)
       .then((res) => res.json())
@@ -21,8 +30,8 @@ const ItemDetails = () => {
         }
         setProduct([data.data]);
         setQuantity(data.data.numInStock);
-
         const _id = data.data.companyId;
+
         fetch(`/companies/${_id}`)
           .then((res) => res.json())
           .then((data) => {
@@ -62,6 +71,7 @@ const ItemDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        productFetch();
         setQuantity((current) => {
           return current - 1;
         });
@@ -87,7 +97,7 @@ const ItemDetails = () => {
           {product.map((item) => {
             return (
               <Container key={item._id}>
-                  <Img src={item.imageSrc} />
+                <Img src={item.imageSrc} />
                 <Info>
                   {companies.map((company) => {
                     return (
@@ -135,11 +145,10 @@ const Name = styled.p`
   font-family: var(--font-body);
 `;
 
-const VH = styled.div`
-`;
+const VH = styled.div``;
 
 const Button = styled.button`
-width: 250px;
+  width: 250px;
   &:disabled {
     cursor: not-allowed;
     opacity: 30%;
@@ -153,14 +162,13 @@ const Divider = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 140px;
-
 `;
 
 const Quantity = styled.div`
-padding-bottom: 10px;
-color: gray;
-font-size: 14px;
-font-family: var(--font-body);
+  padding-bottom: 10px;
+  color: gray;
+  font-size: 14px;
+  font-family: var(--font-body);
 `;
 
 const Info = styled.div`
@@ -200,4 +208,3 @@ const Wrapper = styled.div`
 `;
 
 export default ItemDetails;
-
