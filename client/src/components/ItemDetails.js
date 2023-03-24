@@ -3,7 +3,7 @@ import { FiLoader } from "react-icons/fi";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const ItemDetails = () => {
+const ItemDetails = ({countItem, setCountItem, itemFetch}) => {
   const { _id } = useParams();
   const [product, setProduct] = useState(null);
   const [companies, setCompanies] = useState(null);
