@@ -253,7 +253,6 @@ const updateCart = async (req, res) => {
     if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
     }
-   
 
     // this updates quantity in cart and updates stock
     const oldCartItem = await db
@@ -267,6 +266,12 @@ const updateCart = async (req, res) => {
     const updateQuantity = await db
       .collection("cart")
       .updateOne(query1, update1);
+      
+    // this deletes the item from the cart if there is none in the cart
+    if (oldCartItem.quantity === 0) {
+      console.log(oldCartItem.quantity)
+      const deleteItemFromCart  = await db.collection('cart').deleteOne({ _id: itemId })
+    }
 
     // stock
     const query2 = { _id: itemId };
