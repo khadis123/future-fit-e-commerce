@@ -17,7 +17,7 @@ function App() {
   const [countItem, setCountItem] = useState(null);
   
   //Fetching the data from the cart to know what we have in the cart
-  const itemFetch = () => {
+  const itemFetching = () => {
     fetch("/cart")
       .then((res) => res.json())
       .then((data) => {
@@ -28,16 +28,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header itemFetch={itemFetch}/>
+      <Header itemFetching={itemFetching} countItem={countItem} setCountItem={setCountItem}/>
       <Routes>
         <Route path="/" element={<Homepage/>}/>
-        <Route path="/cart" element={<Cart countItem={countItem} setCountItem={setCountItem} itemFetch={itemFetch}/>}/>
-        <Route path="/confirmation" element={<Confirmation/>}/>
+        <Route path="/cart" element={<Cart countItem={countItem} setCountItem={setCountItem} itemFetching={itemFetching}/>}/>
+        <Route path="/confirmation/:orderId" element={<Confirmation/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/about" element={<AboutUs/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
-        <Route path="/items/:_id" element={<ItemDetails countItem={countItem} setCountItem={setCountItem} itemFetch={itemFetch}/>}/>
+        <Route path="/items/:_id" element={<ItemDetails countItem={countItem} setCountItem={setCountItem} itemFetching={itemFetching}/>}/>
         <Route path="/categories/:category" element={<Category/>}/>
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>

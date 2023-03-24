@@ -5,7 +5,7 @@ import CartItem from "./CartItem";
 import GlobalStyles from "./GlobalStyles";
 import { FiLoader } from "react-icons/fi";
 
-const Cart = ({countItem, setCountItem, itemFetch}) => {
+const Cart = ({countItem, setCountItem, itemFetching}) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { FiLoader } from "react-icons/fi";
+
 
 const CartItem = ({ cartItem, theCartFetch }) => {
   const [companies, setCompanies] = useState(null);
@@ -77,7 +79,9 @@ const CartItem = ({ cartItem, theCartFetch }) => {
   return (
     <>
       {!companies || !item ? (
-        <>Loading...</>
+        <LoadingIcon>
+        <FiLoader />
+      </LoadingIcon>
       ) : (
         <Wrapper>
           <Col>
@@ -118,6 +122,19 @@ const CartItem = ({ cartItem, theCartFetch }) => {
 
 export default CartItem;
 
+const LoadingIcon = styled(FiLoader)`
+  position: relative;
+  left: 30%;
+  top: 10px;
+  animation: spin 1s infinite linear;
+  height: 50vh;
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
