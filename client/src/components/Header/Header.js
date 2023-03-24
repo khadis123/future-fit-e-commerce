@@ -10,51 +10,21 @@ import { useEffect, useState } from "react";
 const Header = () => {
 
   const [cartItems, setCartItems] = useState(null);
-  const [quantity, setQuantity] = useState(0)
-
-  // We need to fetch the updated cart so that whenever there's a change in it, the number of the cart item changes.
-  const updateCart = () => {
-    fetch('/update-cart', {
-      method: 'PATCH',
-      body: JSON.stringify({
-        ...cartItems
-      }),
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"      
-      },
-    })
-    .then((res) => res.json())
-    .then((data) => {
-
-      let quantityCartItem = 0;
-      if (cartItems) {
-
-        cartItems.forEach(item => {
-          quantityCartItem += item.quantity
-        });
-      }
-
-      setQuantity(quantityCartItem);
-    });
-  }
-
-  //Fetching the cart so that we can have the numbers of cart items.
-  useEffect(() => {
+  
+  //Fetching the data from the cart to know what we have in the cart
+  const itemFetch = () => {
     fetch("/cart")
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);
         setCartItems(data.data);
       });
-  }, [cartItems]);
+  };
 
-  //Everytime that there's something new in the cart, we call the updateCart function.
   useEffect(() => {
-    if (cartItems) {
-      updateCart();
-    }
-  }, [cartItems]);
+
+    itemFetch();
+  }, []);
 
   return (
     <>
@@ -75,16 +45,12 @@ const Header = () => {
 
         <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
-          <Number>
-          {quantity}
-          </Number>
+          {cartItems && cartItems.length > 0 && <Number>{cartItems.length}</Number>}
         </HeaderCartButton>
       </HeaderWrapper>
     </>
   );
 };
-
-
 
 const HeaderNavLink = styled(NavLink)`
   text-decoration: none;
