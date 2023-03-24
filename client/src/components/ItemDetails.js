@@ -101,7 +101,7 @@ const ItemDetails = () => {
                   <Divider>
                     <Quantity>Quantity available: {quantity}</Quantity>
                     <Button
-                      disabled={item.numInStock === 0}
+                      disabled={quantity === 0}
                       onClick={handleClick}
                     >
                       {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
