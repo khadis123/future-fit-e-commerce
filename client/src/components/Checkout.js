@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Checkout = () => {
   //useState
-//   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
   const [cartItems, setCartItems] = useState([]);
@@ -26,34 +25,11 @@ const Checkout = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  //item select handler
-  //   const handleSelect = (e) => {
-  //     const { value } = e.target;
-  //     if (value === "") {
-  //       setSelectedItem(undefined);
-  //       setFormData({
-  //         ...formData,
-  //         item: undefined,
-  //       });
-  //       return;
-  //     }
-
-  //     const foundItem = items.find((item, index) => {
-  //         return item.id === value;
-  //       });
-  //       setSelectedItem(foundItem);
-  //       setFormData({
-  //         ...formData,
-  //         item: foundItem.id,
-  //       });
-  //     };
-
   //onSubmit handler
   const handleClick = (e) => {
     total = 0;
     e.preventDefault();
     console.log(formData);
-
 
     fetch("/confirmation", {
       method: "POST",
@@ -62,8 +38,7 @@ const Checkout = () => {
         "Content-Type": "application/json",
       },
       // fname, lname, phone, address, email, price, and item.
-      body: JSON.stringify(
-        {
+      body: JSON.stringify({
         firstName: formData.firstName,
         lastName: formData.lastName,
         address: formData.address,
@@ -73,10 +48,8 @@ const Checkout = () => {
         province: formData.province,
         postalcode: formData.postalcode,
         country: formData.country,
-        phone: formData.phone
-
-    }
-        ), //HERE I'M NOT SURE: order or cart should be there?
+        phone: formData.phone,
+      }),
     })
       //sends the data to the server
       .then((res) => res.json())
@@ -98,12 +71,8 @@ const Checkout = () => {
     });
   };
   cartItems.map((cartItem) => {
-
-
-
-    total = total + (Number((cartItem.price).slice(1)) * cartItem.quantity);
-    //toFixed(2)
-  })
+    total = total + Number(cartItem.price.slice(1)) * cartItem.quantity;
+  });
 
   //JSX
   return (
@@ -242,18 +211,7 @@ const Checkout = () => {
       <>
         <StyledRightColumn>
           <h4>Total $: {total.toFixed(2)}</h4>
-          
-             
-                    {/* // console.log(cartItem["quantity"])
-                    // console.log(cartItem["price"])
-console.log(total)
-                    // console.log("cartItem: ", cartItem)
-                //   return (
-                //     <option key={cartItem.id} value={cartItem.id}>
-                //         {cartItem.price} 
-                //         </option>
-                //   ); */}
-                
+
           <Button onClick={(e) => handleClick(e)}>Place your oder</Button>
         </StyledRightColumn>
       </>
