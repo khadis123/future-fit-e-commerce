@@ -3,15 +3,15 @@ import { FiLoader } from "react-icons/fi";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const ItemDetails = ({countItem, setCountItem, itemFetch}) => {
+
+
+const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
   const { _id } = useParams();
   const [product, setProduct] = useState(null);
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(null);
   // not sure what newItem state does ?
   const [newItem, setNewItem] = useState([]);
-
-  const navigateCart = useNavigate();
 
   const productFetch = () => {
     fetch(`/getItem/${_id}`)
@@ -80,12 +80,16 @@ const ItemDetails = ({countItem, setCountItem, itemFetch}) => {
         } else {
           setNewItem(data);
         }
+        itemFetching();
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const handleBackClick = () => {
+    window.history.back();
+  };
   return (
     <VH>
       {!product || !companies ? (
@@ -94,6 +98,7 @@ const ItemDetails = ({countItem, setCountItem, itemFetch}) => {
         </LoadingIcon>
       ) : (
         <Wrapper>
+          <Button onClick={handleBackClick}>BACK</Button>
           {product.map((item) => {
             return (
               <Container key={item._id}>
