@@ -7,19 +7,7 @@ import GlobalStyles from "../GlobalStyles";
 import { useEffect, useState } from "react";
 
 
-const Header = () => {
-
-  const [cartItems, setCartItems] = useState(null);
-  
-  //Fetching the data from the cart to know what we have in the cart
-  const itemFetch = () => {
-    fetch("/cart")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.data);
-        setCartItems(data.data);
-      });
-  };
+const Header = ({itemFetch}) => {
 
   useEffect(() => {
 
@@ -45,7 +33,7 @@ const Header = () => {
 
         <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
-          {cartItems && cartItems.length > 0 && <Number>{cartItems.length}</Number>}
+         {/* {cartItems && cartItems.length > 0 && <Number>{cartItems.length}</Number>} */}
         </HeaderCartButton>
       </HeaderWrapper>
     </>
