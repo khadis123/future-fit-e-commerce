@@ -11,7 +11,6 @@ const ItemDetails = () => {
   // not sure what newItem state does ?
   const [newItem, setNewItem] = useState([]);
 
-
   const navigateCart = useNavigate();
   useEffect(() => {
     fetch(`/getItem/${_id}`)
@@ -85,84 +84,98 @@ const ItemDetails = () => {
         </LoadingIcon>
       ) : (
         <Wrapper>
-          <ProductFeed>
-            {product.map((item) => {
-              return (
-                <Container key={item._id}>
-                  <Picture>
-                    <img src={item.imageSrc} />
-                  </Picture>
+          {product.map((item) => {
+            return (
+              <Container key={item._id}>
+                  <Img src={item.imageSrc} />
+                <Info>
+                  {companies.map((company) => {
+                    return (
+                      <Link key={company._id} to={company.url}>
+                        {company.name}
+                      </Link>
+                    );
+                  })}
+                  <Name>{item.name}</Name>
+                  <p>{item.price}</p>
                   <Divider>
-                    <Info>
-                      {companies.map((company) => {
-                        return (
-                          <Link key={company._id} to={company.url}>
-                            {company.name}
-                          </Link>
-                        );
-                      })}
-                      <Name>{item.name}</Name>
-                      <p> {item.price}</p>
-                    </Info>
-                    <AddCart>
-                      <Quantity>Quantity available: {quantity}</Quantity>
-                      <Button
-                        disabled={item.numInStock === 0}
-                        onClick={handleClick}
-                      >
-                        {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
-                      </Button>
-                    </AddCart>
+                    <Quantity>Quantity available: {quantity}</Quantity>
+                    <Button
+                      disabled={item.numInStock === 0}
+                      onClick={handleClick}
+                    >
+                      {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
+                    </Button>
                   </Divider>
-                </Container>
-              );
-            })}
-          </ProductFeed>
+                </Info>
+              </Container>
+            );
+          })}
         </Wrapper>
       )}
     </VH>
   );
 };
-const Link = styled(NavLink)``;
+
+const Link = styled(NavLink)`
+  color: #333;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  font-family: var(--font-heading);
+
+  &:hover {
+    color: #444444;
+  }
+`;
+
 const Name = styled.p`
   font-weight: bold;
+  font-size: 24px;
+  font-family: var(--font-body);
 `;
-const VH = styled.div`
-  height: 100vh;
-`;
-const AddCart = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+
+const VH = styled.div``;
+
 const Button = styled.button`
-
-&:disabled{
-
-  cursor: not-allowed;
-    opacity:30%;
-}
+width: 250px;
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 30%;
+  }
+  &:hover {
+    background-color: #d4ff8a;
+  }
 `;
 
 const Divider = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  padding-top: 140px;
+
 `;
-const Quantity = styled.div``;
+
+const Quantity = styled.div`
+padding-bottom: 10px;
+color: gray;
+font-size: 14px;
+font-family: var(--font-body);
+`;
+
 const Info = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Picture = styled.div``;
+
+const Img = styled.img`
+  height: 100%;
+  width: 250px;
+  margin: 50px 150px 50px 50px;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-`;
-const ProductFeed = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  padding: 40px;
 `;
 
 const LoadingIcon = styled(FiLoader)`
@@ -178,6 +191,10 @@ const LoadingIcon = styled(FiLoader)`
     }
   }
 `;
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  width: 100%;
+  margin: 60px;
+`;
 
 export default ItemDetails;
+
