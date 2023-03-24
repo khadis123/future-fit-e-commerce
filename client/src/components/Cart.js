@@ -6,40 +6,53 @@ import GlobalStyles from "./GlobalStyles";
 import { FiLoader } from "react-icons/fi";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const theCartFetch = () => {
     fetch("/cart")
       .then((res) => res.json())
       .then((parsedData) => {
         console.log(parsedData.data);
         setCartItems(parsedData.data);
+        setLoading(true);
       });
+  };
+
+  useEffect(() => {
+    theCartFetch();
   }, []);
 
   const handleClick = () => {
     navigate("/checkout");
   };
-  
+
   return (
     <Wrapper>
       <GlobalStyles />
-      {!cartItems ? (
+      {!loading ? (
         <LoadingIcon>
           <FiLoader />
         </LoadingIcon>
       ) : (
         <Left>
-          <p>Your shopping cart</p>
+          {cartItems.length === 0 ? (
+            <p>Your shopping cart is empty</p>
+          ) : (
+            <p>Your shopping cart</p>
+          )}
+
           {cartItems.map((cartItem) => (
-            <CartItem cartItem={cartItem} />
+            <CartItem theCartFetch={theCartFetch} cartItem={cartItem} />
           ))}
         </Left>
       )}
       <Right>
         <p></p>
-        <AddToCart onClick={handleClick}>Checkout</AddToCart>
+        <AddToCart disabled={cartItems.length === 0} onClick={handleClick}>
+          Checkout
+        </AddToCart>
       </Right>
     </Wrapper>
   );
@@ -78,4 +91,6 @@ const LoadingIcon = styled(FiLoader)`
     }
   }
 `;
-const AddToCart = styled.button``;
+const AddToCart = styled.button`
+  opacity: ${(props) => props.disabled && "0.5"};
+`;

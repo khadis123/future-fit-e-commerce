@@ -11,8 +11,8 @@ const options = {
 
 // Gets all items
 const getItems = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
 
     const db = client.db("eCommerce");
@@ -23,11 +23,11 @@ const getItems = async (req, res) => {
       : res
           .status(400)
           .sjon({ status: 400, message: "Nothing was found here" });
-    client.close();
   } catch (error) {
-    console.log(error);
     res.status(500).json({ status: 500, message: error });
+    client.close();
   }
+  client.close();
 };
 
 //Gets a specific item based on it's _id
@@ -37,7 +37,6 @@ const getItem = async (req, res) => {
 
   try {
     await client.connect();
-
     const db = client.db("eCommerce");
     const itemById = await db
       .collection("items")
@@ -50,14 +49,15 @@ const getItem = async (req, res) => {
           .json({ status: 400, data: myId, message: "Nothing was found here" });
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
+    client.close();
   }
   client.close();
 };
 
 // Gets items by category
 const getItemsByCategory = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
@@ -72,16 +72,17 @@ const getItemsByCategory = async (req, res) => {
       : res
           .status(400)
           .json({ status: 400, message: "Nothing was found here" });
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
+    client.close();
   }
+  client.close();
 };
 
 //Gets all compagnies
 const getCompanies = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
@@ -92,16 +93,17 @@ const getCompanies = async (req, res) => {
       : res
           .status(400)
           .json({ status: 400, message: "Nothing was found here" });
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
+    client.close();
   }
+  client.close();
 };
 
 //Gets a specific company based on it's _id
 const getCompany = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
     const myId = req.params._id;
@@ -114,17 +116,17 @@ const getCompany = async (req, res) => {
       : res
           .status(400)
           .json({ status: 400, data: myId, message: "Nothing was found here" });
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
 };
 
 // Get cart
 const getCart = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
@@ -133,18 +135,17 @@ const getCart = async (req, res) => {
     result
       ? res.status(200).json({ status: 200, data: result })
       : res.status(404).json({ status: 404, message: "Not Found" });
-
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
 };
 
 // Get order by ID
 const getOrder = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
     const myId = Number(req.params.orderId);
@@ -159,12 +160,13 @@ const getOrder = async (req, res) => {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
 };
 
 // POST add to cart
 const addCart = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
@@ -227,37 +229,34 @@ const addCart = async (req, res) => {
       status: 200,
       message: "New item added to cart",
     });
-
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
 };
 
 // PATCH updates cart
 const updateCart = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
-  
+
     // this verifies that the item _id exist
     const itemId = Number(req.body._id);
     const findItem = await db.collection("items").findOne({ _id: itemId });
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
-  
+
     // this verifies that the item is in stock
     if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
     }
 
     // this updates quantity in cart and updates stock
-    const oldCartItem = await db
-      .collection("cart")
-      .findOne({ _id: itemId });
+    const oldCartItem = await db.collection("cart").findOne({ _id: itemId });
 
     const query1 = { _id: itemId };
     const update1 = {
@@ -266,11 +265,12 @@ const updateCart = async (req, res) => {
     const updateQuantity = await db
       .collection("cart")
       .updateOne(query1, update1);
-      
+
     // this deletes the item from the cart if there is none in the cart
     if (oldCartItem.quantity === 0) {
-      console.log(oldCartItem.quantity)
-      const deleteItemFromCart  = await db.collection('cart').deleteOne({ _id: itemId })
+      const deleteItemFromCart = await db
+        .collection("cart")
+        .deleteOne({ _id: itemId });
     }
 
     // stock
@@ -289,17 +289,17 @@ const updateCart = async (req, res) => {
       message: "Cart has been updated",
       data: updatedCart,
     });
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
 };
 
 // POST for place order
 const confirmOrder = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
   try {
-    const client = new MongoClient(MONGO_URI, options);
     await client.connect();
     const db = client.db("eCommerce");
 
@@ -335,12 +335,45 @@ const confirmOrder = async (req, res) => {
       message: "New order created",
       orderId: `Your order id ${newOrderId}`,
     });
-
-    client.close();
   } catch (error) {
     res.status(500).json({ status: 500, message: error });
     client.close();
   }
+  client.close();
+};
+
+// DELETE item from cart and updates stock
+const deleteItem = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("eCommerce");
+    const itemId = Number(req.params._id);
+
+    const deleteItemFromCart = await db
+      .collection("cart")
+      .deleteOne({ _id: itemId });
+
+    // updates stock
+    const findItem = await db.collection("items").findOne({ _id: itemId });
+
+    const query1 = { _id: itemId };
+    const update1 = {
+      $set: { numInStock: findItem.numInStock + Number(req.body.quantity) },
+    };
+    const itemStockUpdate = await db
+      .collection("items")
+      .updateOne(query1, update1);
+
+    res.status(200).json({
+      status: 200,
+      message: "Item deleted from cart",
+    });
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error });
+    client.close();
+  }
+  client.close();
 };
 
 module.exports = {
@@ -354,4 +387,5 @@ module.exports = {
   addCart,
   updateCart,
   confirmOrder,
+  deleteItem,
 };

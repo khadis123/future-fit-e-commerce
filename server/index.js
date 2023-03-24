@@ -14,6 +14,7 @@ const {
   addCart,
   updateCart,
   confirmOrder,
+  deleteItem,
 } = require("./handlers");
 
 const PORT = 4000;
@@ -54,6 +55,10 @@ express()
   .patch("/update-cart", updateCart)
 
   .post("/confirmation", confirmOrder)
+
+  .delete("/delete-item/:_id", deleteItem)
+
+
 
 
   /*********************************************************/
