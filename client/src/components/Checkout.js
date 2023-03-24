@@ -83,7 +83,7 @@ const Checkout = () => {
       //receives the data back from the server
       .then((data) => {
         console.log(data);
-        navigate(`/confirm/${data.data.id}`);
+        navigate(`/confirmation/${data.data.orderId}`);
       })
       .catch((error) => {
         console.log(error);
@@ -102,6 +102,7 @@ const Checkout = () => {
 
 
     total = total + (Number((cartItem.price).slice(1)) * cartItem.quantity);
+    //toFixed(2)
   })
 
   //JSX
@@ -240,7 +241,7 @@ const Checkout = () => {
 
       <>
         <StyledRightColumn>
-          <h4>Total $: {total}</h4>
+          <h4>Total $: {total.toFixed(2)}</h4>
           
              
                     {/* // console.log(cartItem["quantity"])
