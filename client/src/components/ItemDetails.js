@@ -1,9 +1,7 @@
-import { Profiler, useEffect, useState } from "react";
 import { FiLoader } from "react-icons/fi";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-
-
+import { NavLink,  useParams } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import { useEffect, useState } from "react";
 
 const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
   const { _id } = useParams();
@@ -12,6 +10,7 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
   const [quantity, setQuantity] = useState(null);
   // not sure what newItem state does ?
   const [newItem, setNewItem] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
 
   const productFetch = () => {
     fetch(`/getItem/${_id}`)
@@ -51,6 +50,7 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
 
   const handleClick = (event) => {
     event.preventDefault();
+    setIsClicked(true);
     fetch("/add-item", {
       method: "POST",
       headers: {
@@ -118,8 +118,9 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
                     <Button
                       disabled={quantity === 0}
                       onClick={handleClick}
+                      isClicked={isClicked}
                     >
-                      {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
+                      {isClicked ? "Added to cart!" :item.numInStock === 0 ? "Out of stock" : "Add to cart"}
                     </Button>
                   </Divider>
                 </Info>
@@ -161,7 +162,7 @@ const Button = styled.button`
   &:hover {
     background-color: #d4ff8a;
   }
-`;
+  `;
 
 const Divider = styled.div`
   display: flex;
