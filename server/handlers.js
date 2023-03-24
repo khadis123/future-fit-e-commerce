@@ -1,6 +1,6 @@
 "use strict";
 const { uuid } = require("uuidv4");
-const { MongoClient, LEGAL_TLS_SOCKET_OPTIONS } = require("mongodb");
+const { MongoClient, LEGAL_TLS_SOCKET_OPTIONS, Long } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 
@@ -148,8 +148,7 @@ const getOrder = async (req, res) => {
   try {
     await client.connect();
     const db = client.db("eCommerce");
-    const myId = Number(req.params.orderId);
-
+    const myId = req.params.orderId;
     const orderResult = await db.collection("orders").findOne({ _id: myId });
     orderResult
       ? res.status(200).json({ status: 200, data: orderResult })
@@ -157,7 +156,7 @@ const getOrder = async (req, res) => {
           .status(400)
           .sjon({ status: 400, message: "Nothing was found here" });
   } catch (error) {
-    res.status(500).json({ status: 500, message: error });
+    res.status(500).json({ status: 500, message: error.message });
     client.close();
   }
   client.close();
