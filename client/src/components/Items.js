@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import SingleItem from "./SingleItem";
+import myImage from "./images/items.png"
+
 
 const Items = () => {
   const [items, setItems] = useState();
@@ -106,6 +108,13 @@ const Banner = styled.div`
   height: 200px;
   background-color: #f5f5f5;
   border-bottom: 1px black solid;
+  background-image: url(${myImage});
+  background-size: cover;
+  background-position: center;
+  h1 {
+    color: var(--color-accent);
+    text-shadow: 1px 1px 1px #000;
+  }
 `;
 
 const ProductFeed = styled.div`
