@@ -54,7 +54,7 @@ const Banner = styled.div`
   align-items: center;
   height: 300px;
   border-bottom: 1px black solid;
-  background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase()}.png`});
+  background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase().split(" ").join("")}.png`});
   background-size: cover;
   background-position: center;
 
