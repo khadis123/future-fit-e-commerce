@@ -7,11 +7,11 @@ import GlobalStyles from "../GlobalStyles";
 import { useEffect, useState } from "react";
 
 
-const Header = ({itemFetch}) => {
+const Header = ({itemFetching, countItem, setCountItem}) => {
 
   useEffect(() => {
 
-    itemFetch();
+    itemFetching();
   }, []);
 
   return (
@@ -33,7 +33,7 @@ const Header = ({itemFetch}) => {
 
         <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
-         {/* {cartItems && cartItems.length > 0 && <Number>{cartItems.length}</Number>} */}
+         {countItem && countItem.length > 0 && <Number>{countItem.length}</Number>}
         </HeaderCartButton>
       </HeaderWrapper>
     </>
