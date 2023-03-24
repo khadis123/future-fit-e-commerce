@@ -134,7 +134,15 @@ const AddCart = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Button = styled.button``;
+const Button = styled.button`
+
+&:disabled{
+
+  cursor: not-allowed;
+    opacity:30%;
+}
+`;
+
 const Divider = styled.div`
   display: flex;
   flex-direction: column;
