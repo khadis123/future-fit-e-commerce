@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 
 const Checkout = () => {
   //useState
-  const [items, setItems] = useState([]);
+//   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
+  const [cartItems, setCartItems] = useState([]);
+
   const navigate = useNavigate();
 
   //useEffect
@@ -16,8 +18,8 @@ const Checkout = () => {
     fetch("/cart")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setItems(data.data);
+        console.log(data.data);
+        setCartItems(data.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -214,6 +216,19 @@ const Checkout = () => {
       <>
         <StyledRightColumn>
           <h4>Total $: </h4>
+          {cartItems.length &&
+                cartItems.map((cartItem) => {
+                    // let total = Number((cartItem.price).slice(1)) * quantity;
+                    console.log(cartItem["quantity"])
+                    console.log(cartItem["price"])
+
+                    console.log("cartItem: ", cartItem)
+                  return (
+                    <option key={cartItem.id} value={cartItem.id}>
+                        {cartItem.price} 
+                        </option>
+                  );
+                })}
           <Button>Place your oder</Button>
         </StyledRightColumn>
       </>
