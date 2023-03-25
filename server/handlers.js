@@ -375,6 +375,23 @@ const deleteItem = async (req, res) => {
   client.close();
 };
 
+const deleteCart = async (req, res) => {
+  const client = new MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("eCommerce");
+
+    const deleteCart = await db
+    .collection("cart")
+    .deleteMany({});
+
+  } catch (error) {
+    res.status(500).json({ status: 500, message: error });
+    client.close();
+  }
+  client.close();
+}
+
 module.exports = {
   getItems,
   getItem,
@@ -387,4 +404,5 @@ module.exports = {
   updateCart,
   confirmOrder,
   deleteItem,
+  deleteCart,
 };
