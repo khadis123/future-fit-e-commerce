@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import headerBackground from "../images/header_background.png";
 import logo from "../images/FutureFit.png";
 import GlobalStyles from "../GlobalStyles";
+import SearchBar from "../SearchBar";
 
 
 const Header = ({countItem}) => {
@@ -29,6 +30,7 @@ const Header = ({countItem}) => {
           <HeaderNavLink to={`/categories/industrial`}>Industrial</HeaderNavLink>
         </HeaderNav>
 
+        <SearchBar/>
         <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
          {countItem && countItem.length > 0 && <Number>{countItem.length}</Number>}

@@ -12,6 +12,7 @@ import Items from "./Items";
 import Category from "../Category";
 import ItemDetails from "./ItemDetails";
 import { useEffect } from "react";
+import SearchPage from "./SearchPage";
 
 function App() {
 // Lifted the state for the countItem in order to have access to this variable in Header, Cart and ItemDetails
@@ -22,7 +23,6 @@ function App() {
     fetch("/cart")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setCountItem(data.data);
       });
   };
@@ -44,6 +44,7 @@ itemFetching();
         <Route path="/items" element={<Items/>}/>
         <Route path="/items/:_id" element={<ItemDetails itemFetching={itemFetching}/>}/>
         <Route path="/categories/:category" element={<Category/>}/>
+        <Route path="/search" element={<SearchPage/>}/>
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
       <Footer />
