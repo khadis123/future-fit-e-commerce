@@ -77,13 +77,14 @@ const Checkout = ({setOrderNum}) => {
   return (
     <WrapperCheckout>
       <>
+            <Title>Shipping information</Title>
         <StyledSubDivForCard>
           <StyledDivForFormContent>
-            <h2>Shipping information</h2>
+          <SectionContact>Contact Information</SectionContact>
             <StyledRowsForForm>
               <div>
                 <label htmlFor="email"></label>
-                <input
+                <StyledInput
                   placeholder="Email"
                   type="text"
                   id="email"
@@ -92,10 +93,11 @@ const Checkout = ({setOrderNum}) => {
                 />
               </div>
             </StyledRowsForForm>
+            <SectionShip>Shipping Address</SectionShip>
             <StyledRowsForForm>
               <div>
                 <label htmlFor="firstName"> </label>
-                <input
+                <StyledInput
                   placeholder="First Name"
                   type="text"
                   id="firstName"
@@ -106,7 +108,7 @@ const Checkout = ({setOrderNum}) => {
 
               <div>
                 <label htmlFor="lastName"></label>
-                <input
+                <StyledInput
                   placeholder="Last Name"
                   type="text"
                   id="lastName"
@@ -119,7 +121,7 @@ const Checkout = ({setOrderNum}) => {
             <StyledRowsForForm>
               <div>
                 <label htmlFor="address"></label>
-                <input
+                <StyledInput
                   placeholder="Address"
                   type="text"
                   id="address"
@@ -132,7 +134,7 @@ const Checkout = ({setOrderNum}) => {
             <StyledRowsForForm>
               <div>
                 <label htmlFor="apartment"></label>
-                <input
+                <StyledInput
                   placeholder="Apartment"
                   type="text"
                   id="apartment"
@@ -144,7 +146,7 @@ const Checkout = ({setOrderNum}) => {
             <StyledRowsForForm>
               <div>
                 <label htmlFor="city"></label>
-                <input
+                <StyledInput
                   placeholder="City"
                   type="text"
                   id="city"
@@ -155,7 +157,7 @@ const Checkout = ({setOrderNum}) => {
 
               <div>
                 <label htmlFor="province"></label>
-                <input
+                <StyledInput
                   placeholder="Province"
                   type="text"
                   id="province"
@@ -166,7 +168,7 @@ const Checkout = ({setOrderNum}) => {
 
               <div>
                 <label htmlFor="postalcode"></label>
-                <input
+                <StyledInput
                   placeholder="Postal code"
                   type="text"
                   id="postalcode"
@@ -179,7 +181,7 @@ const Checkout = ({setOrderNum}) => {
             <StyledRowsForForm>
               <div>
                 <label htmlFor="country"></label>
-                <input
+                <StyledInput
                   placeholder="Country"
                   type="text"
                   id="country"
@@ -190,7 +192,7 @@ const Checkout = ({setOrderNum}) => {
 
               <div>
                 <label htmlFor="phone"></label>
-                <input
+                <StyledInput
                   placeholder="Phone number"
                   type="phone"
                   id="phone"
@@ -200,18 +202,18 @@ const Checkout = ({setOrderNum}) => {
               </div>
             </StyledRowsForForm>
 
-            <div>
+           
               <StyledCartLink to="/cart">Back to cart</StyledCartLink>
-            </div>
+       
           </StyledDivForFormContent>
         </StyledSubDivForCard>
       </>
 
       <>
         <StyledRightColumn>
-          <h4>Total $: {total.toFixed(2)}</h4>
+          <h5>Order Total: ${total.toFixed(2)}</h5>
 
-          <Button onClick={(e) => handleClick(e)}>Place your oder</Button>
+          <Button onClick={(e) => handleClick(e)}>Place your order</Button>
         </StyledRightColumn>
       </>
     </WrapperCheckout>
@@ -220,40 +222,41 @@ const Checkout = ({setOrderNum}) => {
 
 export default Checkout;
 
+const Title = styled.h1`
+  font-size: 30px;
+  margin: 48px;
+`;
+
 const WrapperCheckout = styled.div`
-  background-color: #edf0f2;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+`;
+
+const SectionContact = styled.h6`
+margin-bottom: 5px;
+`;
+
+const SectionShip = styled.h6`
+margin-top: 30px;
+margin-bottom: 5px;
 `;
 
 const Button = styled.button`
-  width: max-content;
-  height: fit-content;
-  background-color: #ceff1a;
-  padding: 10px 30px;
-  border-radius: 30px;
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
-  margin: 10px;
-  display: block;
-  align-content: center;
+margin-top: 10px;
+width: 250px;
 `;
 
 const StyledSubDivForCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  width: 700px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  overflow: hidden;
-  /* box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); */
-  margin: 20px auto;
-  padding: 25px;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 24px;
+  max-width: 600px;
   justify-content: center;
-  font-family: "Lora", serif;
-  font-size: large;
   background-color: ---color-main-background;
 `;
 
@@ -264,9 +267,6 @@ const StyledDivForFormContent = styled.form`
   margin: 10px;
   padding: 10px;
   justify-content: left;
-  font-family: "Lora", serif;
-  font-size: large;
-  line-height: 2;
   align-items: flex-start;
 `;
 
@@ -279,14 +279,23 @@ const StyledRightColumn = styled.div`
   padding: 20px;
   margin-right: 30px;
   margin-top: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  align-items: center;
 `;
 const StyledCartLink = styled(Link)`
-  font-weight: 700;
+margin-top: 20px;
+ text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
 `;
 const StyledRowsForForm = styled.div`
   display: flex;
   flex-direction: row;
   width: 650px;
   height: fit-content;
+`;
+
+const StyledInput = styled.input`
+  width: 160px;
+  margin 5px;
+
 `;
