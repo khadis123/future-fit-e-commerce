@@ -25,6 +25,8 @@ const Header = ({itemFetching, countItem, setCountItem}) => {
           <HeaderNavLink to={`/categories/medical`}>Medical</HeaderNavLink>
           <HeaderNavLink to={`/categories/entertainment`}>Entertainment</HeaderNavLink>
           <HeaderNavLink to={`/categories/pets%20and%20animals`}>Pets</HeaderNavLink>
+          <HeaderNavLink to={`/categories/gaming`}>Gaming</HeaderNavLink>
+          <HeaderNavLink to={`/categories/industrial`}>Industrial</HeaderNavLink>
         </HeaderNav>
 
         <HeaderCartButton as={NavLink} to="/cart">
@@ -41,7 +43,7 @@ const HeaderNavLink = styled(NavLink)`
   color: black;
   font-weight: bold;
   font-family: var(--font-heading);
-  font-size: 22px;
+  font-size: 20px;
   padding: 0 25px 0 25px;
   cursor: pointer;
 
