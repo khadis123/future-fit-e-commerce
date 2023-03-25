@@ -105,7 +105,7 @@ const Banner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 300px;
   background-color: #f5f5f5;
   border-bottom: 1px black solid;
   background-image: url(${myImage});
