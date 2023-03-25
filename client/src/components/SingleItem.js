@@ -2,6 +2,7 @@
 import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 
+//Display of a single item in the category page.
 const SingleItem = ({ item }) => {
   return (
     <Wrapper>

@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { FiLoader } from "react-icons/fi";
+
 
 const Confirmation = () => {
   const [order, setOrder] = useState(null);
   const {orderId} = useParams();
 
+  //Fetching the confirmation Id to send back the info to the user.
   useEffect(() => {
     fetch(`/confirmation/${orderId}`)
       .then((res) => res.json())
@@ -24,17 +27,18 @@ const Confirmation = () => {
   return (
     <>
       {!order ? (
-        <h1>Loading...</h1>
+       <LoadingIcon>
+       <FiLoader />
+     </LoadingIcon>
       ) : (
         <Wrapper>
           <Title>Thank you for your order {order.firstName}!</Title>
           <Order>
             <p>Your order # {order._id}</p>
             <p>
-              Items will be shipped to {order.address}, {order.city},
-              {order.province}
+              Items will be shipped to {order.address}, {order.city}, {order.province}
             </p>
-            <p>more info here :) </p>
+            <p>more info here :)</p>
           </Order>
         </Wrapper>
       )}
@@ -66,4 +70,18 @@ const Order = styled.div`
   max-width: 600px;
   justify-content: center;
   background-color: ---color-main-background;
+  `
+  const LoadingIcon = styled(FiLoader)`
+  position: relative;
+  left: 50%;
+  top: 10px;
+  animation: spin 1s infinite linear;
+  height: 80vh;
+
+  @keyframes spin {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 `;
+
