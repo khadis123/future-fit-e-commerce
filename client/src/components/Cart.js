@@ -5,7 +5,7 @@ import CartItem from "./CartItem";
 import GlobalStyles from "./GlobalStyles";
 import { FiLoader } from "react-icons/fi";
 
-const Cart = ({countItem, setCountItem, itemFetching}) => {
+const Cart = ({ countItem, setCountItem, itemFetching }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -41,33 +41,38 @@ const Cart = ({countItem, setCountItem, itemFetching}) => {
         </LoadingIcon>
       ) : (
         <>
-          <Button onClick={handleBackClick}>BACK</Button>
-        <Left>
+          <Left>
+            {cartItems.length === 0 ? (
+              <p>Your shopping cart is empty</p>
+            ) : (
+              <p>Your shopping cart</p>
+            )}
 
-          {cartItems.length === 0 ? (
-            <p>Your shopping cart is empty</p>
-          ) : (
-            <p>Your shopping cart</p>
-          )}
-
-          {cartItems.map((cartItem) => (
-            <CartItem theCartFetch={theCartFetch} cartItem={cartItem} itemFetching={itemFetching} />
-          ))}
-        </Left>
+            {cartItems.map((cartItem) => (
+              <CartItem
+                theCartFetch={theCartFetch}
+                cartItem={cartItem}
+                itemFetching={itemFetching}
+              />
+            ))}
+          </Left>
         </>
       )}
       <Right>
         <p></p>
-        <AddToCart disabled={cartItems.length === 0} onClick={handleClick}>
-          Checkout
-        </AddToCart>
+        <ButtonsWrapper>
+          <Button onClick={handleBackClick}>Back to shopping</Button>
+          <AddToCart disabled={cartItems.length === 0} onClick={handleClick}>
+            Checkout
+          </AddToCart>
+        </ButtonsWrapper>
       </Right>
     </Wrapper>
   );
 };
 
 export default Cart;
-const Button=styled.button``
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
@@ -86,6 +91,20 @@ const Right = styled.div`
   justify-content: flex-end;
 `;
 
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+`;
+const Button = styled.button`
+margin: 0 20px 0 0;
+background-color: lightgray;
+`;
+
+const AddToCart = styled.button`
+  opacity: ${(props) => props.disabled && "0.5"};
+`;
 const LoadingIcon = styled(FiLoader)`
   position: relative;
   left: 30%;
@@ -98,7 +117,4 @@ const LoadingIcon = styled(FiLoader)`
       transform: rotate(360deg);
     }
   }
-`;
-const AddToCart = styled.button`
-  opacity: ${(props) => props.disabled && "0.5"};
 `;

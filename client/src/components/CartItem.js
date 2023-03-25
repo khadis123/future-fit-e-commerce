@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
-
 const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(cartItem.quantity);
@@ -81,8 +80,8 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
     <>
       {!companies || !item ? (
         <LoadingIcon>
-        <FiLoader />
-      </LoadingIcon>
+          <FiLoader />
+        </LoadingIcon>
       ) : (
         <Wrapper>
           <Col>
@@ -91,29 +90,33 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
           <Col>
             <>{cartItem.name}</>
             <>{companyName.name}</>
-          </Col>
-          <Col>
             <Row>
-              <Btn
-                disabled={quantity <= 1}
-                onClick={(ev) => handleClick(ev)}
-                value={"-"}
-              >
-                -
-              </Btn>
-              <p>{quantity}</p>
-              <Btn
-                disabled={item.numInStock <= 0}
-                onClick={(ev) => handleClick(ev)}
-                value={"+"}
-              >
-                +
-              </Btn>
+              <QtySelection>
+                <QuantityButton
+                  disabled={quantity <= 1}
+                  onClick={(ev) => handleClick(ev)}
+                  value={"-"}
+                >
+                  -
+                </QuantityButton>
+                <Quantity>{quantity}</Quantity>
+                <QuantityButton
+                  disabled={item.numInStock <= 0}
+                  onClick={(ev) => handleClick(ev)}
+                  value={"+"}
+                >
+                  +
+                </QuantityButton>
+              </QtySelection>
             </Row>
-            <DeleteDiv>
-              <DeleteBtn onClick={(ev) => handleDelete(ev)}>Delete</DeleteBtn>
-            </DeleteDiv>
-            <Price>total: {total}</Price>
+            <Row>
+              <Totaldiv>
+                <Price>Total: {total}</Price>
+                <DeleteLink onClick={(ev) => handleDelete(ev)}>
+                  Remove from cart
+                </DeleteLink>
+              </Totaldiv>
+            </Row>
           </Col>
         </Wrapper>
       )}
@@ -138,11 +141,12 @@ const LoadingIcon = styled(FiLoader)`
 `;
 const Wrapper = styled.div`
   display: flex;
-  justify-content: space-around;
+  align-items: center;
   width: 500px;
   height: 150px;
   border: 1px solid gray;
   margin: 20px;
+  padding: 5px;
 `;
 const Col = styled.div`
   display: flex;
@@ -150,8 +154,8 @@ const Col = styled.div`
 `;
 const Img = styled.img`
   height: 120px;
-  margin: 20px;
   object-fit: contain;
+  margin: 0 25px 0 10px;
 `;
 const Price = styled.div`
   font-size: 16px;
@@ -162,20 +166,37 @@ const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const Btn = styled.button`
-  height: 20px;
-  width: 20px;
+
+const Totaldiv = styled.div`
+padding-top: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const QtySelection = styled.div`
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+`;
+
+const QuantityButton = styled.button`
+  border: none;
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
   opacity: ${(props) => props.disabled && "0.5"};
 `;
-const DeleteDiv = styled.div`
-  height: 200px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
+
+const Quantity = styled.p`
+  padding: 0 15px;
 `;
-const DeleteBtn = styled.button`
-  padding: 10px;
-  font-size: 10px;
-  width: 80px;
-  height: 40px;
+
+const DeleteLink = styled.a`
+  text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 150px;
 `;
