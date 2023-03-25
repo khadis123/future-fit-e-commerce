@@ -14,7 +14,6 @@ const getItems = async (req, res) => {
   const client = new MongoClient(MONGO_URI, options);
   try {
     await client.connect();
-
     const db = client.db("eCommerce");
 
     const items = await db.collection("items").find().toArray();
@@ -34,7 +33,6 @@ const getItems = async (req, res) => {
 const getItem = async (req, res) => {
   const myId = req.params._id;
   const client = new MongoClient(MONGO_URI, options);
-
   try {
     await client.connect();
     const db = client.db("eCommerce");
@@ -87,7 +85,6 @@ const getCompanies = async (req, res) => {
     const db = client.db("eCommerce");
 
     const allCompanies = await db.collection("companies").find().toArray();
-
     allCompanies
       ? res.status(200).json({ status: 200, data: allCompanies })
       : res
@@ -131,7 +128,6 @@ const getCart = async (req, res) => {
     const db = client.db("eCommerce");
 
     const result = await db.collection("cart").find().toArray();
-
     result
       ? res.status(200).json({ status: 200, data: result })
       : res.status(404).json({ status: 404, message: "Not Found" });
@@ -175,7 +171,6 @@ const addCart = async (req, res) => {
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
-
     // this verifies that the item is in stock
     if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
@@ -248,7 +243,6 @@ const updateCart = async (req, res) => {
     if (!findItem) {
       return res.status(400).json({ status: 400, data: "Item doesn't exist" });
     }
-
     // this verifies that the item is in stock
     if (findItem.numInStock < req.body.quantity) {
       return res.status(400).json({ status: 400, data: "Item not in stock" });
@@ -301,12 +295,16 @@ const confirmOrder = async (req, res) => {
   try {
     await client.connect();
     const db = client.db("eCommerce");
-
     if (
       !req.body.firstName ||
       !req.body.lastName ||
       !req.body.address ||
-      !req.body.email
+      !req.body.email ||
+      !req.body.city ||
+      !req.body.province ||
+      !req.body.postalCode ||
+      !req.body.country ||
+      !req.body.phone 
     ) {
       return res.status(409).json({ status: 409, data: "Missing information" });
     }

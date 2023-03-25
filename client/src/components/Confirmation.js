@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
 const Confirmation = () => {
   const [order, setOrder] = useState(null);
+  const navigate = useNavigate();
   const { orderId } = useParams();
 
   //Fetching the confirmation Id to send back the info to the user.
@@ -13,16 +14,22 @@ const Confirmation = () => {
       .then((res) => res.json())
       .then((data) => {
         setOrder(data.data);
-      })
-
-      .catch((error) => {
-        console.log(error);
       });
+    fetch(`/delete-cart`, {
+      method: "DELETE",
+      body: JSON.stringify(),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    }).catch((error) => {
+      console.log(error);
+    });
   }, []);
 
-  if (order) {
-    console.log(order);
-  }
+  const handleClick = () => {
+    navigate("/");
+  };
 
   return (
     <>
@@ -31,17 +38,25 @@ const Confirmation = () => {
           <FiLoader />
         </LoadingIcon>
       ) : (
-        <Wrapper>
-          <Title>Thank you for your order {order.firstName}!</Title>
-          <Order>
-            <p>Your order # {order._id}</p>
-            <p>
-              Items will be shipped to {order.address}, {order.city},{" "}
-              {order.province}
-            </p>
-            <p>more info here :)</p>
-          </Order>
-        </Wrapper>
+        <div>
+          <Wrapper>
+            <Title>Thank you for your order {order.firstName}!</Title>
+            <Order>
+              <p>Your order # {order._id}</p>
+              <p>
+                The following items will be shipped to {order.address},{" "}
+                {order.city}, {order.province}
+              </p>
+              {order.cart.map((item) => {
+                console.log(item);
+                return <Li>{item.name}</Li>;
+              })}
+            </Order>
+          </Wrapper>
+          <ButtonDiv>
+            <ShoppingBtn onClick={handleClick}>Back to shopping</ShoppingBtn>
+          </ButtonDiv>
+        </div>
       )}
     </>
   );
@@ -54,6 +69,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 50px;
+  line-height: 30px;
 `;
 
 const Title = styled.h1`
@@ -84,4 +100,16 @@ const LoadingIcon = styled(FiLoader)`
       transform: rotate(360deg);
     }
   }
+`;
+
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+`;
+
+const ShoppingBtn = styled.button``;
+
+const Li = styled.li`
+  font-weight: bold;
 `;

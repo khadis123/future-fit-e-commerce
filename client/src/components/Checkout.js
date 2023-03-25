@@ -28,15 +28,6 @@ const Checkout = ({setCountItem}) => {
     total = 0;
     e.preventDefault();
 
-    fetch(`/delete-cart`, {
-      method: "DELETE",
-      body: JSON.stringify(),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
-
     fetch("/confirmation", {
       method: "POST",
       headers: {
