@@ -31,9 +31,6 @@ const Confirmation = () => {
     navigate("/");
   };
 
-  if (order) {
-    console.log(order);
-  }
   return (
     <>
       {!order ? (
