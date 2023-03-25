@@ -77,7 +77,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 25px;
-  height: 90vh;
+  height: 100%;
 `;
 
 const Left = styled.div`
