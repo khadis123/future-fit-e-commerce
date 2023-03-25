@@ -27,7 +27,7 @@ const Confirmation = () => {
         <h1>Loading...</h1>
       ) : (
         <Wrapper>
-          <h1>Thank you for your order {order.firstName}!</h1>
+          <Title>Thank you for your order {order.firstName}!</Title>
           <Order>
             <p>Your order # {order._id}</p>
             <p>
@@ -45,13 +45,25 @@ const Confirmation = () => {
 export default Confirmation;
 
 const Wrapper = styled.div`
-  height: 80vh;
-  width: 80vw;
-  margin: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+`;
+
+const Title = styled.h1`
+  font-size: 30px;
+  margin: 48px;
 `;
 
 const Order = styled.div`
-  background-color: lightgray;
-  height: 50vh;
-  width: 50vw;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 24px;
+  max-width: 600px;
+  justify-content: center;
+  background-color: ---color-main-background;
 `;

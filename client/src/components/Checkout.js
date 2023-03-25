@@ -296,6 +296,6 @@ const StyledRowsForForm = styled.div`
 
 const StyledInput = styled.input`
   width: 160px;
-  margin 5px;
+  margin: 5px;
 
 `;
