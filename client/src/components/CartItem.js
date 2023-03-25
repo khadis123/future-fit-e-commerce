@@ -143,10 +143,11 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   width: 500px;
-  height: 150px;
+  height: auto;
   border: 1px solid gray;
+  border-radius: 2px;
   margin: 20px;
-  padding: 5px;
+  padding: 10px 5px 10px 5px;
 `;
 const Col = styled.div`
   display: flex;
@@ -183,7 +184,8 @@ const QtySelection = styled.div`
 `;
 
 const QuantityButton = styled.button`
-  border: none;
+background-color: white;
+  border: gray 1px solid;
   display: flex;
   justify-content: center;
   margin-right: 5px;

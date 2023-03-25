@@ -98,7 +98,7 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
         </LoadingIcon>
       ) : (
         <Wrapper>
-          <Button onClick={handleBackClick}>BACK</Button>
+          <StyledBackLink onClick={handleBackClick}>BACK</StyledBackLink>
           {product.map((item) => {
             return (
               <Container key={item._id}>
@@ -211,6 +211,13 @@ const LoadingIcon = styled(FiLoader)`
 const Wrapper = styled.div`
   width: 100%;
   margin: 60px;
+`;
+
+const StyledBackLink = styled(Link)`
+margin-top: 20px;
+ text-decoration: underline;
+  font-size: 12px;
+  cursor: pointer;
 `;
 
 export default ItemDetails;

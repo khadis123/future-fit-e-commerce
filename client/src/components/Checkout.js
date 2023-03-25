@@ -252,7 +252,7 @@ const StyledSubDivForCard = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  border: 1px solid black;
+  border: 1px solid gray;
   border-radius: 2px;
   padding: 24px;
   max-width: 600px;
