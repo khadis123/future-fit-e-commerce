@@ -38,7 +38,7 @@ itemFetching();
         <Route path="/" element={<Homepage/>}/>
         <Route path="/cart" element={<Cart itemFetching={itemFetching}/>}/>
         <Route path="/confirmation/:orderId" element={<Confirmation/>}/>
-        <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/checkout" element={<Checkout setCountItem={setCountItem}/>}/>
         <Route path="/about" element={<AboutUs/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
