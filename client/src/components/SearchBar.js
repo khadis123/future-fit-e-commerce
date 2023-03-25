@@ -39,6 +39,19 @@ const SearchBar = () => {
     setUserInput("");
   };
 
+//When the user clicks anywhere else on the screen, I want the suggestions to disappear.
+  useEffect(()=> {
+    const handleWindowClick = () => {
+      setItemSuggestion([])
+      setUserInput("")
+    };
+    window.addEventListener("click", handleWindowClick)
+
+    //cleaning the EventListener
+    return () => {
+      window.removeEventListener("click", handleWindowClick)
+    }
+  })
 console.log(itemSuggestion._id);
   return (
     <Wrapper>
