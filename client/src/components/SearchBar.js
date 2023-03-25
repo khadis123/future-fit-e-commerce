@@ -110,7 +110,7 @@ const Results = styled.ul`
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   z-index: 1;
   background-color:white;
-  opacity:90%
+  opacity:90%;
 `;
 
 const Container = styled.div`
