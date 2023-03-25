@@ -3,11 +3,13 @@ import { useParams } from "react-router-dom";
 import { FiLoader } from "react-icons/fi";
 import styled from "styled-components";
 import SingleItem from "./components/SingleItem";
+import Sidebar from "./components/Sidebar";
 
 const Category = () => {
   const { category } = useParams();
   const [singleCategory, setSingleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [sort, setSort] = useState("noSort")
 
   //fetching items according to a category.
   useEffect(() => {
@@ -18,7 +20,6 @@ const Category = () => {
         if (data.status === 400 || data.status === 500) {
           throw new Error("Error");
         }
-        console.log(data.data);
         setSingleCategory(data.data);
         setIsLoading(false);
       })
@@ -27,6 +28,34 @@ const Category = () => {
       });
 
   }, [category]);
+  
+  let sorted = [...singleCategory];
+  console.log(sort)
+
+  useEffect(() => {
+    if (sort === "$ascending") {
+      sorted = sorted.sort((a, b) => {
+        return a.price - b.price;
+      })
+    } else if (sort === "$descending") {
+      sorted = sorted.sort((a, b) => {
+        return b.price - a.price;
+      });
+    } else if (sort === "alpha+") {
+      sorted = sorted.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    } else if (sort === "alpha-") {
+      sorted = sorted.sort((a, b) => {
+        return b.name.localeCompare(a.name);
+      });
+    } else {
+      sorted = singleCategory;
+    }
+    console.log(sorted)
+  }, [sort])
+
+
 
   return (
     <>
@@ -39,8 +68,9 @@ const Category = () => {
         </LoadingIcon>
       ) : (
         <Wrapper>
+          <Sidebar setSort={setSort}/>
           <ProductFeed>
-            {singleCategory.map((item) => {
+            {sorted.map((item) => {
               return (
                 <>
                   <SingleItem key={item._id} item={item} />
