@@ -27,7 +27,15 @@ const Checkout = () => {
   const handleClick = (e) => {
     total = 0;
     e.preventDefault();
-    console.log(formData);
+
+    fetch(`/delete-cart`, {
+      method: "DELETE",
+      body: JSON.stringify(),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
 
     fetch("/confirmation", {
       method: "POST",
@@ -44,7 +52,7 @@ const Checkout = () => {
         apartment: formData.apartment,
         city: formData.city,
         province: formData.province,
-        postalcode: formData.postalcode,
+        postalCode: formData.postalcode,
         country: formData.country,
         phone: formData.phone,
       }),
@@ -75,10 +83,10 @@ const Checkout = () => {
   return (
     <WrapperCheckout>
       <>
-            <Title>Shipping information</Title>
+        <Title>Shipping information</Title>
         <StyledSubDivForCard>
           <StyledDivForFormContent>
-          <SectionContact>Contact Information</SectionContact>
+            <SectionContact>Contact Information</SectionContact>
             <StyledRowsForForm>
               <div>
                 <label htmlFor="email"></label>
@@ -200,9 +208,7 @@ const Checkout = () => {
               </div>
             </StyledRowsForForm>
 
-           
-              <StyledCartLink to="/cart">Back to cart</StyledCartLink>
-       
+            <StyledCartLink to="/cart">Back to cart</StyledCartLink>
           </StyledDivForFormContent>
         </StyledSubDivForCard>
       </>
@@ -233,17 +239,17 @@ const WrapperCheckout = styled.div`
 `;
 
 const SectionContact = styled.h6`
-margin-bottom: 5px;
+  margin-bottom: 5px;
 `;
 
 const SectionShip = styled.h6`
-margin-top: 30px;
-margin-bottom: 5px;
+  margin-top: 30px;
+  margin-bottom: 5px;
 `;
 
 const Button = styled.button`
-margin-top: 10px;
-width: 250px;
+  margin-top: 10px;
+  width: 250px;
 `;
 
 const StyledSubDivForCard = styled.div`
@@ -280,8 +286,8 @@ const StyledRightColumn = styled.div`
   align-items: center;
 `;
 const StyledCartLink = styled(Link)`
-margin-top: 20px;
- text-decoration: underline;
+  margin-top: 20px;
+  text-decoration: underline;
   font-size: 12px;
   cursor: pointer;
 `;
@@ -295,5 +301,4 @@ const StyledRowsForForm = styled.div`
 const StyledInput = styled.input`
   width: 160px;
   margin: 5px;
-
 `;
