@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 //Display of a single item in the category page.
 const SingleItem = ({ item }) => {
+  const outOfStock = item.numInStock === 0;
   return (
     <Wrapper>
       <Product to={`/items/${item._id}`}>
@@ -11,11 +12,17 @@ const SingleItem = ({ item }) => {
         <Naming>
           <Name>{item.name}</Name>
           <Price>{item.price}</Price>
+          {outOfStock && <OutOfStock>Out of Stock</OutOfStock>}
         </Naming>
       </Product>
     </Wrapper>
   );
 };
+
+const OutOfStock = styled.span`
+color:red;
+font-size: 14px;
+`
 
 const Img = styled.img`
   height: 150px;
