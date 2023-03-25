@@ -70,6 +70,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding-bottom: 50px;
   line-height: 30px;
+  height:80vh;
 `;
 
 const Title = styled.h1`
