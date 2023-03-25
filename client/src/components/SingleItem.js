@@ -55,7 +55,7 @@ const Product = styled(NavLink)`
   background-color: white;
   border-radius: 2px;
   padding: 20px;
-  border: 1px black solid;
+  border: 1px gray solid;
   text-decoration: none;
   color: inherit;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
