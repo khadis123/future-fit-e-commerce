@@ -46,17 +46,17 @@ const HeaderNavLink = styled(NavLink)`
   font-weight: bold;
   font-family: var(--font-heading);
   font-size: 20px;
-  padding: 0 25px 0 25px;
+  padding: 0 25px;
   cursor: pointer;
 
   @media (max-width: 768px) {
     font-size: 16px;
-    padding: 0 10px 0 10px;
+    padding: 0 10px;
   }
 
   @media (max-width: 480px) {
     font-size: 14px;
-    padding: 0 5px 0 5px;
+    padding: 0 5px;
   }
 `;
 
@@ -91,20 +91,19 @@ const HeaderWrapper = styled.div`
 const HeaderNav = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-left: auto;
+  justify-content: flex-start;
+  flex-grow: 1;
 `;
 
 const Number = styled.span`
-position: relative;
-font-weight:bold;
-padding:5px;
-border-radius: 10px;
-top:-20px;
-right:5px;
-font-size:20px;
-`
-
+  position: relative;
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 10px;
+  top: -20px;
+  right: 5px;
+  font-size: 20px;
+`;
 const HeaderCartButton = styled.a`
   background-color: transparent;
   border: none;
@@ -112,6 +111,7 @@ const HeaderCartButton = styled.a`
   color: black;
   cursor: pointer;
   margin-left: 30px;
+  flex-grow: 0;
 `;
 
 
