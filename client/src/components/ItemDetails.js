@@ -1,25 +1,24 @@
 import { FiLoader } from "react-icons/fi";
 import { NavLink,  useParams } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
+const ItemDetails = ({itemFetching}) => {
   const { _id } = useParams();
   const [product, setProduct] = useState(null);
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(null);
-  // not sure what newItem state does ?
-  const [newItem, setNewItem] = useState([]);
   const [isClicked, setIsClicked] = useState(false);
 
   const productFetch = () => {
     fetch(`/getItem/${_id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProduct([data.data]);
-      });
+    .then((res) => res.json())
+    .then((data) => {
+      setProduct([data.data]);
+    });
   };
-
+  
+  //Fetchinig a specific item
   useEffect(() => {
     fetch(`/getItem/${_id}`)
       .then((res) => res.json())
@@ -48,6 +47,8 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
       });
   }, []);
 
+  //adds the product to the cart when the user clicks the "Add to Cart" button.
+  //if successful, the request updates the state variables product, quantity, and isClicked, and calls the itemFetching
   const handleClick = (event) => {
     event.preventDefault();
     setIsClicked(true);
@@ -77,10 +78,8 @@ const ItemDetails = ({countItem, setCountItem, itemFetching}) => {
         });
         if (data.status === 400 || data.status === 500) {
           throw new Error("Error");
-        } else {
-          setNewItem(data);
-        }
-        itemFetching();
+        } 
+        itemFetching(); // In app.js - calling it in so that the cart icon changes the number according to the items in the cart
       })
       .catch((error) => {
         console.log(error);

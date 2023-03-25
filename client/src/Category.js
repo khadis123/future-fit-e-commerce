@@ -3,11 +3,15 @@ import { useParams } from "react-router-dom";
 import { FiLoader } from "react-icons/fi";
 import styled from "styled-components";
 import SingleItem from "./components/SingleItem";
+
 const Category = () => {
   const { category } = useParams();
   const [singleCategory, setSingleCategory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
+  //fetching items according to a category.
   useEffect(() => {
+    setIsLoading(true);
     fetch(`/getItems/${category}`)
       .then((res) => res.json())
       .then((data) => {
@@ -16,10 +20,12 @@ const Category = () => {
         }
         console.log(data.data);
         setSingleCategory(data.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
+
   }, [category]);
 
   return (
@@ -27,7 +33,7 @@ const Category = () => {
     <Banner category={category}>
     <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       </Banner>
-      {singleCategory.length === 0 ? (
+      {isLoading ? (
         <LoadingIcon>
           <FiLoader />
         </LoadingIcon>

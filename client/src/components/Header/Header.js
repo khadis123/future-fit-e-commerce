@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 import headerBackground from "../images/header_background.png";
 import logo from "../images/FutureFit.png";
 import GlobalStyles from "../GlobalStyles";
-import { useEffect, useState } from "react";
 
 
-const Header = ({itemFetching, countItem, setCountItem}) => {
-
+const Header = ({countItem}) => {
+// hardcoded the links.
+// cart icon can tell us the number of the different items.
 
   return (
     <>

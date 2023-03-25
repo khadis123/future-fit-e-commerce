@@ -3,19 +3,17 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Checkout = ({setOrderNum}) => {
+const Checkout = () => {
   //useState
   const [formData, setFormData] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
   const [cartItems, setCartItems] = useState([]);
 
   const navigate = useNavigate();
-
   let total = 0;
 
-  //useEffect
   useEffect(() => {
-    //fetch all my items
+    //fetch all my items in the cart
     fetch("/cart")
       .then((response) => response.json())
       .then((data) => {

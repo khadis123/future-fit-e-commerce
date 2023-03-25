@@ -5,11 +5,12 @@ import CartItem from "./CartItem";
 import GlobalStyles from "./GlobalStyles";
 import { FiLoader } from "react-icons/fi";
 
-const Cart = ({ countItem, setCountItem, itemFetching }) => {
+const Cart = ({ itemFetching }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  //Fetching the cart data to see what items is in the cart.
   const theCartFetch = () => {
     fetch("/cart")
       .then((res) => res.json())

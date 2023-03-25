@@ -8,6 +8,7 @@ import myImage from "./images/items.png"
 const Items = () => {
   const [items, setItems] = useState();
 
+  //Fetching to get all the items.
   useEffect(() => {
     fetch("/getItems")
       .then((res) => res.json())
@@ -20,6 +21,7 @@ const Items = () => {
       });
   }, []);
 
+  //fitltering them by categories
   const byCategories = (category) => {
     return items.filter((item) => item.category === category);
   };

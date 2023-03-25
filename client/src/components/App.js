@@ -14,12 +14,10 @@ import ItemDetails from "./ItemDetails";
 import { useEffect } from "react";
 
 function App() {
-
+// Lifted the state for the countItem in order to have access to this variable in Header, Cart and ItemDetails
   const [countItem, setCountItem] = useState(null);
 
-  
   //Fetching the data from the cart to know what we have in the cart
-  
   const itemFetching = () => {
     fetch("/cart")
       .then((res) => res.json())
@@ -35,16 +33,16 @@ itemFetching();
 
   return (
     <BrowserRouter>
-      <Header itemFetching={itemFetching} countItem={countItem} setCountItem={setCountItem}/>
+      <Header countItem={countItem}/>
       <Routes>
         <Route path="/" element={<Homepage/>}/>
-        <Route path="/cart" element={<Cart countItem={countItem} setCountItem={setCountItem} itemFetching={itemFetching}/>}/>
+        <Route path="/cart" element={<Cart itemFetching={itemFetching}/>}/>
         <Route path="/confirmation/:orderId" element={<Confirmation/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
         <Route path="/about" element={<AboutUs/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
         <Route path="/items" element={<Items/>}/>
-        <Route path="/items/:_id" element={<ItemDetails countItem={countItem} setCountItem={setCountItem} itemFetching={itemFetching}/>}/>
+        <Route path="/items/:_id" element={<ItemDetails itemFetching={itemFetching}/>}/>
         <Route path="/categories/:category" element={<Category/>}/>
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
