@@ -159,7 +159,7 @@ const Img = styled.img`
   margin: 0 25px 0 10px;
 `;
 const Price = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 `;
 
