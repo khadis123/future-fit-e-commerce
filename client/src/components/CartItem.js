@@ -111,7 +111,7 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
             </Row>
             <Row>
               <Totaldiv>
-                <Price>Total: {total}</Price>
+                <Price>Total: ${total.toFixed(2)}</Price>
                 <DeleteLink onClick={(ev) => handleDelete(ev)}>
                   Remove from cart
                 </DeleteLink>
