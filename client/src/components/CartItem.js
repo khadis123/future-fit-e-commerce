@@ -111,7 +111,7 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
             </Row>
             <Row>
               <Totaldiv>
-                <Price>Total: {total}</Price>
+                <Price>Total: ${total.toFixed(2)}</Price>
                 <DeleteLink onClick={(ev) => handleDelete(ev)}>
                   Remove from cart
                 </DeleteLink>
@@ -159,7 +159,7 @@ const Img = styled.img`
   margin: 0 25px 0 10px;
 `;
 const Price = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 `;
 
