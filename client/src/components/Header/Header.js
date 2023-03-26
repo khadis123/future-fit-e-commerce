@@ -29,12 +29,13 @@ const Header = ({countItem}) => {
           <HeaderNavLink to={`/categories/gaming`}>Gaming</HeaderNavLink>
           <HeaderNavLink to={`/categories/industrial`}>Industrial</HeaderNavLink>
         </HeaderNav>
-
+<SearchDiv>
         <SearchBar/>
         <HeaderCartButton as={NavLink} to="/cart">
           <BsCart3 />
          {countItem && countItem.length > 0 && <Number>{countItem.length}</Number>}
         </HeaderCartButton>
+        </SearchDiv>
       </HeaderWrapper>
     </>
   );
@@ -45,17 +46,17 @@ const HeaderNavLink = styled(NavLink)`
   color: black;
   font-weight: bold;
   font-family: var(--font-heading);
-  font-size: 20px;
-  padding: 0 25px;
+  font-size: 18px;
+  padding: 0 15px;
   cursor: pointer;
 
-  @media (max-width: 768px) {
-    font-size: 16px;
+  @media (max-width: 1500px) {
+    font-size: 14px;
     padding: 0 10px;
   }
 
   @media (max-width: 480px) {
-    font-size: 14px;
+    font-size: 12px;
     padding: 0 5px;
   }
 `;
@@ -70,8 +71,8 @@ const HeaderLogo = styled.img`
  height: 100px;
   margin-right: 20px;
 
-  @media screen and (max-width: 768px) {
-    height: 40px;
+  @media screen and (max-width: 1450px) {
+    height: 50px;
   }
 `;
 
@@ -86,6 +87,12 @@ const HeaderWrapper = styled.div`
   padding: 0 40px 0 14px;
   border-bottom: 1px black solid;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: 1450px) {
+    flex-direction: column;
+    height: 15vh;
+    padding: 15px;
+  }
 `;
 
 const HeaderNav = styled.div`
@@ -93,6 +100,12 @@ const HeaderNav = styled.div`
   align-items: center;
   justify-content: flex-start;
   flex-grow: 1;
+`;
+
+const SearchDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const Number = styled.span`
@@ -103,6 +116,16 @@ const Number = styled.span`
   top: -20px;
   right: 5px;
   font-size: 20px;
+
+  @media (max-width: 1400px) {
+    font-size: 14px;
+ 
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+
+  }
 `;
 const HeaderCartButton = styled.a`
   background-color: transparent;
@@ -112,6 +135,12 @@ const HeaderCartButton = styled.a`
   cursor: pointer;
   margin-left: 30px;
   flex-grow: 0;
+
+  @media (max-width: 1400px) {
+    font-size: 25px;
+  }
+
+
 `;
 
 
