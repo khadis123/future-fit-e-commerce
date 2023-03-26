@@ -55,7 +55,7 @@ const HeaderNavLink = styled(NavLink)`
     padding: 0 10px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
     font-size: 12px;
     padding: 0 5px;
   }
@@ -83,15 +83,15 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   background-image: url(${headerBackground});
   background-size: cover;
-  height: 12vh;
+  height: auto;
   padding: 0 40px 0 14px;
   border-bottom: 1px black solid;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
   
   @media (max-width: 1450px) {
     flex-direction: column;
-    height: 15vh;
-    padding: 15px;
+    height: auto;
+    padding: 10px 0 0 0;
   }
 `;
 
@@ -122,7 +122,7 @@ const Number = styled.span`
  
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 600px) {
     font-size: 12px;
 
   }
