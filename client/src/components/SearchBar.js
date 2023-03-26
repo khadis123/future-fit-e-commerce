@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { FiLoader,FiSearch } from "react-icons/fi";
+import { FiLoader, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 const SearchBar = () => {
   const [userInput, setUserInput] = useState("");
   const [itemSuggestion, setItemSuggestion] = useState([]);
-  
+
   const navigate = useNavigate();
 
-//Fetching all of the items.
+  //Fetching all of the items.
   useEffect(() => {
     fetch("/getItems")
       .then((res) => res.json())
@@ -22,13 +22,15 @@ const SearchBar = () => {
       });
   }, [userInput]);
 
-//if the itemsSuggestions === to the userInput. We only want the 10 first suggestions.
-  const matchedSuggestions = itemSuggestion && itemSuggestion.filter((suggestion) => {
-    return (
-      suggestion.name.toLowerCase().includes(userInput.toLowerCase()) &&
-      userInput.length >= 2
-    );
-  }).slice(0, 10);
+  //if the itemsSuggestions === to the userInput. We only want the 10 first suggestions.
+  const matchedSuggestions =
+    itemSuggestion &&
+    itemSuggestion.filter((suggestion) => {
+      return (
+        suggestion.name.toLowerCase().includes(userInput.toLowerCase()) &&
+        userInput.length >= 2
+      );
+    });
 
   //Navigate to the selected item in the suggestion according to its _id
   // set the input to ""
@@ -39,20 +41,20 @@ const SearchBar = () => {
     setUserInput("");
   };
 
-//When the user clicks anywhere else on the screen, I want the suggestions to disappear.
-  useEffect(()=> {
+  //When the user clicks anywhere else on the screen, I want the suggestions to disappear.
+  useEffect(() => {
     const handleWindowClick = () => {
-      setItemSuggestion([])
-      setUserInput("")
+      setItemSuggestion([]);
+      setUserInput("");
     };
-    window.addEventListener("click", handleWindowClick)
+    window.addEventListener("click", handleWindowClick);
 
     //cleaning the EventListener
     return () => {
-      window.removeEventListener("click", handleWindowClick)
-    }
-  })
-console.log(itemSuggestion._id);
+      window.removeEventListener("click", handleWindowClick);
+    };
+  });
+  console.log(itemSuggestion._id);
   return (
     <Wrapper>
       <Container>
@@ -61,7 +63,9 @@ console.log(itemSuggestion._id);
           value={userInput}
           onChange={(ev) => setUserInput(ev.target.value)}
         />
-        <Button to="/search"><FiSearch/></Button>
+        <Button to="/search">
+          <FiSearch />
+        </Button>
       </Container>
 
       <Results>
@@ -91,7 +95,6 @@ console.log(itemSuggestion._id);
                   {firstHalf}
                   <Prediction>{secondHalf}</Prediction>
                 </span>{" "}
-                
               </Suggestion>
             );
           })
@@ -104,7 +107,7 @@ console.log(itemSuggestion._id);
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-position:relative;
+  position: relative;
   margin: 20px;
 `;
 
@@ -117,13 +120,15 @@ const Button = styled(NavLink)`
 
 const Results = styled.ul`
   position: absolute;
-  top: 100%; 
-  left: 0; 
+  top: 100%;
+  left: 0;
   width: 400px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   z-index: 1;
-  background-color:white;
-  opacity:90%;
+  background-color: white;
+  opacity: 90%;
+  overflow-y: scroll;
+  max-height: 60vh;
 `;
 
 const Container = styled.div`

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiLoader, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
 
 const SearchPage = () => {
   const [userInput, setUserInput] = useState("");
@@ -25,13 +24,12 @@ const SearchPage = () => {
   //if the itemsSuggestions === to the userInput. We only want the 10 first suggestions.
   const matchedSuggestions =
     itemSuggestion &&
-    itemSuggestion
-      .filter((suggestion) => {
-        return (
-          suggestion.name.toLowerCase().includes(userInput.toLowerCase()) &&
-          userInput.length >= 2
-        );
-      })
+    itemSuggestion.filter((suggestion) => {
+      return (
+        suggestion.name.toLowerCase().includes(userInput.toLowerCase()) &&
+        userInput.length >= 2
+      );
+    });
 
   //Navigate to the selected item in the suggestion according to its _id
   // set the input to ""
@@ -112,16 +110,16 @@ const Button = styled.span`
 `;
 
 const Results = styled.ul`
-   position: absolute;
-  top: 20%; 
-  left: 30%; 
+  position: absolute;
+  top: 20%;
+  left: 30%;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   z-index: 1;
   background-color: white;
   opacity: 90%;
   width: 730px;
-  overflow-y: scroll; /* add this line */
-  max-height: 60vh; /* add this line */
+  overflow-y: scroll;
+  max-height: 60vh;
 `;
 
 const Container = styled.div`
