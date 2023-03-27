@@ -30,7 +30,10 @@ const Category = () => {
   }, [category]);
   
   let sorted = [...singleCategory];
-  console.log(sort)
+
+  // This useEffect is looking for changes in ''sort'' which is a string that is changed in Sidebar.js.
+  // The four cases are sorting the array ''sorted'', and eventually gets setted backed to state variable
+  // ''singleCategory'' which is rendered in JSX
 
   useEffect(() => {
     if (sort === "$ascending") {
