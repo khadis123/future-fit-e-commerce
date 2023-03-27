@@ -5,13 +5,11 @@ import styled from "styled-components";
 import SingleItem from "./components/SingleItem";
 import Sidebar from "./components/Sidebar";
 
-//Category component that renders all of the product according to a certain category that the user chooses.
-//Adding the sorting method for the user.
 const Category = () => {
   const { category } = useParams();
   const [singleCategory, setSingleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [sort, setSort] = useState("noSort");
+  const [sort, setSort] = useState("noSort")
 
   //fetching items according to a category.
   useEffect(() => {
@@ -28,37 +26,47 @@ const Category = () => {
       .catch((error) => {
         console.log(error);
       });
+
   }, [category]);
-
+  
   let sorted = [...singleCategory];
+  console.log(sort)
 
-  //When the user chooses a sort method, the useEffect fires off.
   useEffect(() => {
     if (sort === "$ascending") {
       sorted = sorted.sort((a, b) => {
-        return a.price - b.price;
-      });
+        return Number((a.price).slice(1)) - Number((b.price).slice(1));
+      })
     } else if (sort === "$descending") {
       sorted = sorted.sort((a, b) => {
-        return b.price - a.price;
+        return Number((b.price).slice(1)) - Number((a.price).slice(1));
       });
     } else if (sort === "alpha+") {
-      sorted = sorted.sort((a, b) => {
-        return a.name.localeCompare(b.name);
+      sorted.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+        if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+        return 0;
       });
-    } else if (sort === "alpha-") {
-      sorted = sorted.sort((a, b) => {
-        return b.name.localeCompare(a.name);
+    }
+    else if (sort === "alpha-") {
+      sorted.sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) return 1;
+        if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
+        return 0;
       });
-    } else {
+    }
+   else {
       sorted = singleCategory;
     }
-  }, [sort]);
+  setSingleCategory(sorted)
+  }, [sort])
 
+
+ 
   return (
     <>
-      <Banner category={category}>
-        <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
+    <Banner category={category}>
+    <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       </Banner>
       {isLoading ? (
         <LoadingIcon>
@@ -66,9 +74,9 @@ const Category = () => {
         </LoadingIcon>
       ) : (
         <Wrapper>
-          <Sidebar setSort={setSort} />
+          <Sidebar setSort={setSort}/>
           <ProductFeed>
-            {sorted.map((item) => {
+            {singleCategory.map((item) => {
               return (
                 <>
                   <SingleItem key={item._id} item={item} />
@@ -88,11 +96,7 @@ const Banner = styled.div`
   align-items: center;
   height: 300px;
   border-bottom: 1px black solid;
-  background-image: url(${(props) =>
-    `${process.env.PUBLIC_URL}/banners/${props.category
-      .toLowerCase()
-      .split(" ")
-      .join("")}.png`});
+  background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase().split(" ").join("")}.png`});
   background-size: cover;
   background-position: center;
 
@@ -116,8 +120,8 @@ const LoadingIcon = styled(FiLoader)`
   left: 50%;
   top: 10px;
   animation: spin 1s infinite linear;
-  height: 80vh;
-
+  height:80vh;
+  
   @keyframes spin {
     100% {
       transform: rotate(360deg);
