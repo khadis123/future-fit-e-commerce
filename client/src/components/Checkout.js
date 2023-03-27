@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-const Checkout = ({setCountItem}) => {
+//Checkout component containing mostly a form.
+const Checkout = ({ setCountItem }) => {
   //useState
   const [formData, setFormData] = useState({});
   const [selectedItem, setSelectedItem] = useState("");
@@ -12,18 +13,20 @@ const Checkout = ({setCountItem}) => {
   const navigate = useNavigate();
   let total = 0;
 
+  //fetching the cart so that we can show the items that the user's going to buy as well as the total price.
   useEffect(() => {
     //fetch all my items in the cart
     fetch("/cart")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.data);
         setCartItems(data.data);
       })
       .catch((error) => console.log(error));
   }, []);
 
   //onSubmit handler
+  //When the user clicks on "Place your order", we're fetching the confirmation in order to POST it to the confirmation page, where the user will be navigated
+  //We also set the CountItem to null because he just ordered, so we want an empty cart.
   const handleClick = (e) => {
     total = 0;
     e.preventDefault();
@@ -52,7 +55,7 @@ const Checkout = ({setCountItem}) => {
       .then((res) => res.json())
       //receives the data back from the server
       .then((data) => {
-        setCountItem(null)
+        setCountItem(null);
         navigate(`/confirmation/${data.orderId}`);
       })
       .catch((error) => {
@@ -60,6 +63,7 @@ const Checkout = ({setCountItem}) => {
       });
   };
 
+  //Everytime that the user will add information in the input, it will update the formData according to the value.
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 import SingleItem from "./SingleItem";
-import myImage from "./images/items.png"
+import myImage from "./images/items.png";
 
-
+//Items component that renders all of the items from the data base.
 const Items = () => {
   const [items, setItems] = useState();
 
@@ -13,7 +13,6 @@ const Items = () => {
     fetch("/getItems")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.data);
         setItems(data.data);
       })
       .catch((error) => {

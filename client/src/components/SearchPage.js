@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FiLoader, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
+//SearchPage component that is a page only for searching product.
+//it as the same logic as the SearchBar.js, but this one is bigger, cleaner and easier for the user to use.
 const SearchPage = () => {
   const [userInput, setUserInput] = useState("");
   const [itemSuggestion, setItemSuggestion] = useState([]);
@@ -39,8 +41,6 @@ const SearchPage = () => {
     setItemSuggestion([]);
     setUserInput("");
   };
-
-  console.log(itemSuggestion._id);
   return (
     <Wrapper>
       <H1>What are you looking for ?</H1>

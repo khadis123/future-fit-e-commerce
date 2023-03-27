@@ -1,9 +1,9 @@
-
 import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-//Display of a single item in the category page.
+// SingleItem component that displays a single item of the category page or all Items page.
 const SingleItem = ({ item }) => {
+  //If the item is out of stock, renders a small text "out of stock"
   const outOfStock = item.numInStock === 0;
   return (
     <Wrapper>
@@ -20,9 +20,9 @@ const SingleItem = ({ item }) => {
 };
 
 const OutOfStock = styled.span`
-color:red;
-font-size: 14px;
-`
+  color: red;
+  font-size: 14px;
+`;
 
 const Img = styled.img`
   height: 150px;
@@ -67,7 +67,6 @@ const Product = styled(NavLink)`
   text-decoration: none;
   color: inherit;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-
 `;
 
 const Wrapper = styled.div`

@@ -5,11 +5,13 @@ import styled from "styled-components";
 import SingleItem from "./components/SingleItem";
 import Sidebar from "./components/Sidebar";
 
+//Category component that renders all of the product according to a certain category that the user chooses.
+//Adding the sorting method for the user.
 const Category = () => {
   const { category } = useParams();
   const [singleCategory, setSingleCategory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [sort, setSort] = useState("noSort")
+  const [sort, setSort] = useState("noSort");
 
   //fetching items according to a category.
   useEffect(() => {
@@ -26,17 +28,16 @@ const Category = () => {
       .catch((error) => {
         console.log(error);
       });
-
   }, [category]);
-  
-  let sorted = [...singleCategory];
-  console.log(sort)
 
+  let sorted = [...singleCategory];
+
+  //When the user chooses a sort method, the useEffect fires off.
   useEffect(() => {
     if (sort === "$ascending") {
       sorted = sorted.sort((a, b) => {
         return a.price - b.price;
-      })
+      });
     } else if (sort === "$descending") {
       sorted = sorted.sort((a, b) => {
         return b.price - a.price;
@@ -52,15 +53,12 @@ const Category = () => {
     } else {
       sorted = singleCategory;
     }
-    console.log(sorted)
-  }, [sort])
-
-
+  }, [sort]);
 
   return (
     <>
-    <Banner category={category}>
-    <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
+      <Banner category={category}>
+        <h1>{category.charAt(0).toUpperCase() + category.slice(1)}</h1>
       </Banner>
       {isLoading ? (
         <LoadingIcon>
@@ -68,7 +66,7 @@ const Category = () => {
         </LoadingIcon>
       ) : (
         <Wrapper>
-          <Sidebar setSort={setSort}/>
+          <Sidebar setSort={setSort} />
           <ProductFeed>
             {sorted.map((item) => {
               return (
@@ -90,7 +88,11 @@ const Banner = styled.div`
   align-items: center;
   height: 300px;
   border-bottom: 1px black solid;
-  background-image: url(${props => `${process.env.PUBLIC_URL}/banners/${props.category.toLowerCase().split(" ").join("")}.png`});
+  background-image: url(${(props) =>
+    `${process.env.PUBLIC_URL}/banners/${props.category
+      .toLowerCase()
+      .split(" ")
+      .join("")}.png`});
   background-size: cover;
   background-position: center;
 
@@ -114,8 +116,8 @@ const LoadingIcon = styled(FiLoader)`
   left: 50%;
   top: 10px;
   animation: spin 1s infinite linear;
-  height:80vh;
-  
+  height: 80vh;
+
   @keyframes spin {
     100% {
       transform: rotate(360deg);
