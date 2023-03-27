@@ -1,16 +1,16 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-const Sidebar = ({setSort}) => {
-
+//Sidebar component for the user to sort our items
+const Sidebar = ({ setSort }) => {
+  //When the user chooses a certain value, we render the filter method he chose
   const handleChange = (e) => {
-    setSort(e.target.value)
-    console.log(e.target.value)
-  }
+    setSort(e.target.value);
+  };
 
   return (
     <>
       <Wrapper>
-        <Select name={"Sort by..."}  onChange={(e) => handleChange(e)}>
+        <Select name={"Sort by..."} onChange={(e) => handleChange(e)}>
           <option value={"noSortState"}>Sort by...</option>
           <option value={"$ascending"}>Sort by $ ascending</option>
           <option value={"$descending"}>Sort by $ descending</option>
@@ -19,16 +19,16 @@ const Sidebar = ({setSort}) => {
         </Select>
       </Wrapper>
     </>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
 
 const Wrapper = styled.div`
   width: 150px;
   height: 100vh;
   position: absolute;
-`
+`;
 const Select = styled.select`
   background-color: transparent;
   border: none;
@@ -38,7 +38,7 @@ const Select = styled.select`
   margin: 20px 0 0 20px;
   line-height: inherit;
   width: 110%;
-  &:hover{
-    cursor:pointer
+  &:hover {
+    cursor: pointer;
   }
-`
+`;

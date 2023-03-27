@@ -1,30 +1,31 @@
 import styled from "styled-components";
 
+//Component containing simple information about where and how to contact Future-Fit
 const ContactUs = () => {
   return (
     <Wrapper>
       <Title>Contact Us</Title>
       <Box>
-      <Section>
-        <SectionTitle>Customer Service</SectionTitle>
-        <SectionText>
-          For any questions you might have, please reach out to our customer
-          service team at the following email address:
-        </SectionText>
-        <SectionLink href="mailto:info@futurefit.com">
-          info@futurefit.com
-        </SectionLink>
-      </Section>
-      <Section>
-        <SectionTitle>Careers</SectionTitle>
-        <SectionText>
-          If you would like to work with us, please send us your CV at the
-          following email address:
-        </SectionText>
-        <SectionLink href="mailto:career@futurefit.com">
-          career@futurefit.com
-        </SectionLink>
-      </Section>
+        <Section>
+          <SectionTitle>Customer Service</SectionTitle>
+          <SectionText>
+            For any questions you might have, please reach out to our customer
+            service team at the following email address:
+          </SectionText>
+          <SectionLink href="mailto:info@futurefit.com">
+            info@futurefit.com
+          </SectionLink>
+        </Section>
+        <Section>
+          <SectionTitle>Careers</SectionTitle>
+          <SectionText>
+            If you would like to work with us, please send us your CV at the
+            following email address:
+          </SectionText>
+          <SectionLink href="mailto:career@futurefit.com">
+            career@futurefit.com
+          </SectionLink>
+        </Section>
       </Box>
     </Wrapper>
   );
@@ -65,17 +66,17 @@ const SectionText = styled.p`
 `;
 
 const SectionLink = styled.a`
-   background-color: var(--color-accent);
-    border: none;
-    border-radius: 25px;
-    color: black;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    padding: 12px 50px;
-    transition: all 0.3s ease;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px black solid;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 25px;
+  color: black;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 12px 50px;
+  transition: all 0.3s ease;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px black solid;
 
   &:hover {
     background-color: #d4ff8a;

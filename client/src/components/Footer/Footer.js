@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import logo from "../images/FutureFit.png";
 
+//Footer component containing the logo, the contact us and about us links, and the Follow us component
 const Footer = () => {
   return (
     <>

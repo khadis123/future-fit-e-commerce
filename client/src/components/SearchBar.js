@@ -4,6 +4,7 @@ import { FiLoader, FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
+//SearchBar component for the user to search a specific product on the website.
 const SearchBar = () => {
   const [userInput, setUserInput] = useState("");
   const [itemSuggestion, setItemSuggestion] = useState([]);
@@ -47,6 +48,8 @@ const SearchBar = () => {
       setItemSuggestion([]);
       setUserInput("");
     };
+
+    //Adding the EventListener
     window.addEventListener("click", handleWindowClick);
 
     //cleaning the EventListener
@@ -54,7 +57,6 @@ const SearchBar = () => {
       window.removeEventListener("click", handleWindowClick);
     };
   });
-  console.log(itemSuggestion._id);
   return (
     <Wrapper>
       <Container>

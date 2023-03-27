@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+//Component containing simple information about Future-Fit
 const AboutUs = () => {
   return (
     <Wrapper>

@@ -6,15 +6,16 @@ import logo from "../images/FutureFit.png";
 import GlobalStyles from "../GlobalStyles";
 import SearchBar from "../SearchBar";
 
+//Header component containing the logo, the main categories of our website, a SearchBar component as well as a cart icon.
 
-const Header = ({countItem}) => {
-// hardcoded the links.
-// cart icon can tell us the number of the different items.
+const Header = ({ countItem }) => {
+  // hardcoded the links.
+  // cart icon can tell us the number of the different items.
 
   return (
     <>
       <GlobalStyles />
-      
+
       <HeaderWrapper>
         <HeaderLink to="/">
           <HeaderLogo src={logo} alt="logo FutureFit" />
@@ -24,17 +25,25 @@ const Header = ({countItem}) => {
           <HeaderNavLink to={`/categories/fitness`}>Fitness</HeaderNavLink>
           <HeaderNavLink to={`/categories/lifestyle`}>Lifestyle</HeaderNavLink>
           <HeaderNavLink to={`/categories/medical`}>Medical</HeaderNavLink>
-          <HeaderNavLink to={`/categories/entertainment`}>Entertainment</HeaderNavLink>
-          <HeaderNavLink to={`/categories/pets%20and%20animals`}>Pets</HeaderNavLink>
+          <HeaderNavLink to={`/categories/entertainment`}>
+            Entertainment
+          </HeaderNavLink>
+          <HeaderNavLink to={`/categories/pets%20and%20animals`}>
+            Pets
+          </HeaderNavLink>
           <HeaderNavLink to={`/categories/gaming`}>Gaming</HeaderNavLink>
-          <HeaderNavLink to={`/categories/industrial`}>Industrial</HeaderNavLink>
+          <HeaderNavLink to={`/categories/industrial`}>
+            Industrial
+          </HeaderNavLink>
         </HeaderNav>
-<SearchDiv>
-        <SearchBar/>
-        <HeaderCartButton as={NavLink} to="/cart">
-          <BsCart3 />
-         {countItem && countItem.length > 0 && <Number>{countItem.length}</Number>}
-        </HeaderCartButton>
+        <SearchDiv>
+          <SearchBar />
+          <HeaderCartButton as={NavLink} to="/cart">
+            <BsCart3 />
+            {countItem && countItem.length > 0 && (
+              <Number>{countItem.length}</Number>
+            )}
+          </HeaderCartButton>
         </SearchDiv>
       </HeaderWrapper>
     </>
@@ -64,11 +73,10 @@ const HeaderNavLink = styled(NavLink)`
 const HeaderLink = styled(NavLink)`
   text-decoration: none;
   color: black;
- 
 `;
 
 const HeaderLogo = styled.img`
- height: 100px;
+  height: 100px;
   margin-right: 20px;
 
   @media screen and (max-width: 1450px) {
@@ -87,7 +95,7 @@ const HeaderWrapper = styled.div`
   padding: 0 40px 0 14px;
   border-bottom: 1px black solid;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-  
+
   @media (max-width: 1450px) {
     flex-direction: column;
     height: auto;
@@ -119,12 +127,10 @@ const Number = styled.span`
 
   @media (max-width: 1400px) {
     font-size: 14px;
- 
   }
 
   @media (max-width: 600px) {
     font-size: 12px;
-
   }
 `;
 const HeaderCartButton = styled.a`
@@ -139,9 +145,6 @@ const HeaderCartButton = styled.a`
   @media (max-width: 1400px) {
     font-size: 25px;
   }
-
-
 `;
-
 
 export default Header;

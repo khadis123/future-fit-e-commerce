@@ -1,23 +1,25 @@
 import { FiLoader } from "react-icons/fi";
-import { NavLink,  useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-const ItemDetails = ({itemFetching}) => {
+//ItemDetails component that renders information about an item when the user clicks on one.
+const ItemDetails = ({ itemFetching }) => {
   const { _id } = useParams();
   const [product, setProduct] = useState(null);
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(null);
   const [isClicked, setIsClicked] = useState(false);
 
+  //Fetching data according to the item._id that the user clicked on
   const productFetch = () => {
     fetch(`/getItem/${_id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setProduct([data.data]);
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct([data.data]);
+      });
   };
-  
+
   //Fetchinig a specific item
   useEffect(() => {
     fetch(`/getItem/${_id}`)
@@ -71,14 +73,13 @@ const ItemDetails = ({itemFetching}) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         productFetch();
         setQuantity((current) => {
           return current - 1;
         });
         if (data.status === 400 || data.status === 500) {
           throw new Error("Error");
-        } 
+        }
         itemFetching(); // In app.js - calling it in so that the cart icon changes the number according to the items in the cart
       })
       .catch((error) => {
@@ -86,6 +87,7 @@ const ItemDetails = ({itemFetching}) => {
       });
   };
 
+  //When the user clicks on "back", it navigates him to the previous page he was on.
   const handleBackClick = () => {
     window.history.back();
   };
@@ -119,7 +121,11 @@ const ItemDetails = ({itemFetching}) => {
                       onClick={handleClick}
                       isClicked={isClicked}
                     >
-                      {isClicked ? "Added to cart!" :item.numInStock === 0 ? "Out of stock" : "Add to cart"}
+                      {isClicked
+                        ? "Added to cart!"
+                        : item.numInStock === 0
+                        ? "Out of stock"
+                        : "Add to cart"}
                     </Button>
                   </Divider>
                 </Info>
@@ -161,7 +167,7 @@ const Button = styled.button`
   &:hover {
     background-color: #d4ff8a;
   }
-  `;
+`;
 
 const Divider = styled.div`
   display: flex;
@@ -213,8 +219,8 @@ const Wrapper = styled.div`
 `;
 
 const StyledBackLink = styled(Link)`
-margin-top: 20px;
- text-decoration: underline;
+  margin-top: 20px;
+  text-decoration: underline;
   font-size: 12px;
   cursor: pointer;
 `;

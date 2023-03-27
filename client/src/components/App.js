@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import SearchPage from "./SearchPage";
 
 function App() {
-// Lifted the state for the countItem in order to have access to this variable in Header, Cart and ItemDetails
+  // Lifted the state for the countItem in order to have access to this variable in Header, Cart and ItemDetails
   const [countItem, setCountItem] = useState(null);
 
   //Fetching the data from the cart to know what we have in the cart
@@ -26,25 +26,32 @@ function App() {
         setCountItem(data.data);
       });
   };
-useEffect(()=>{
 
-itemFetching();
-}, []) 
+  //when the page render, we're calling the itemFetching function.
+  useEffect(() => {
+    itemFetching();
+  }, []);
 
   return (
     <BrowserRouter>
-      <Header countItem={countItem}/>
+      <Header countItem={countItem} />
       <Routes>
-        <Route path="/" element={<Homepage/>}/>
-        <Route path="/cart" element={<Cart itemFetching={itemFetching}/>}/>
-        <Route path="/confirmation/:orderId" element={<Confirmation/>}/>
-        <Route path="/checkout" element={<Checkout setCountItem={setCountItem}/>}/>
-        <Route path="/about" element={<AboutUs/>}/>
-        <Route path="/contact" element={<ContactUs/>}/>
-        <Route path="/items" element={<Items/>}/>
-        <Route path="/items/:_id" element={<ItemDetails itemFetching={itemFetching}/>}/>
-        <Route path="/categories/:category" element={<Category/>}/>
-        <Route path="/search" element={<SearchPage/>}/>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/cart" element={<Cart itemFetching={itemFetching} />} />
+        <Route path="/confirmation/:orderId" element={<Confirmation />} />
+        <Route
+          path="/checkout"
+          element={<Checkout setCountItem={setCountItem} />}
+        />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/items" element={<Items />} />
+        <Route
+          path="/items/:_id"
+          element={<ItemDetails itemFetching={itemFetching} />}
+        />
+        <Route path="/categories/:category" element={<Category />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="" element={<h1>404: Oops!</h1>} />
       </Routes>
       <Footer />

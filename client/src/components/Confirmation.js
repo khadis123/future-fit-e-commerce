@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
+//Confirmation component where the user will see important information regarding his order.
 const Confirmation = () => {
   const [order, setOrder] = useState(null);
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Confirmation = () => {
       .then((data) => {
         setOrder(data.data);
       });
+    //Fetching delete-cart in order to remove item from the cart so that the user can pass a new order
     fetch(`/delete-cart`, {
       method: "DELETE",
       body: JSON.stringify(),
@@ -27,6 +29,7 @@ const Confirmation = () => {
     });
   }, []);
 
+  //when clicking on "Back to shopping", the user gets navigated home
   const handleClick = () => {
     navigate("/");
   };
@@ -48,8 +51,7 @@ const Confirmation = () => {
                 {order.city}, {order.province}
               </p>
               {order.cart.map((item) => {
-                console.log(item);
-                return <Li>{item.name}</Li>;
+                return <Li key={item._id}>{item.name}</Li>;
               })}
             </Order>
           </Wrapper>
@@ -70,7 +72,7 @@ const Wrapper = styled.div`
   align-items: center;
   padding-bottom: 50px;
   line-height: 30px;
-  height:80vh;
+  height: 80vh;
 `;
 
 const Title = styled.h1`

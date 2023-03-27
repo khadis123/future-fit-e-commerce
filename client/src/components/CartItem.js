@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FiLoader } from "react-icons/fi";
 
+//CartItem component containing the logic of increasing, decreasing and removing the item from the cart.
 const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
   const [companies, setCompanies] = useState(null);
   const [quantity, setQuantity] = useState(cartItem.quantity);
@@ -11,12 +12,14 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
   let click = 1;
   let total = Number(cartItem.price.slice(1)) * quantity;
 
+  //Find the company that has the same coompanyId as the item
   if (companies) {
     companyName = companies.find(
       (company) => cartItem.companyId === company._id
     );
   }
 
+  //fetching all the item in the cart according to a specific _id
   const itemFetch = () => {
     fetch(`/getItem/${cartItem._id}`)
       .then((res) => res.json())
@@ -25,6 +28,8 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
       });
   };
 
+  //When the click variable changes, we're fetching all of the companies
+  //We're also calling itemFetch that comes from App.js in order to make the number of item appears in the cart icon.
   useEffect(() => {
     fetch(`/companies`)
       .then((res) => res.json())
@@ -35,6 +40,7 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
   }, [click]);
   //At the end of the PATCH, using the res.body to update the quantity between two buttons
 
+  //If the user clicks on the "-", we decrease the quantity of the item in the cart.
   const handleClick = (ev) => {
     ev.preventDefault();
 
@@ -42,6 +48,9 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
       click = -1;
     }
 
+    //Fetching the updated cart, after the user adds or removes items.
+    //We're also calling itemFetch that comes from App.js in order to make the number of item appears in the cart icon.
+    //Adjusting the quantity
     fetch("/update-cart", {
       method: "PATCH",
       body: JSON.stringify({
@@ -60,6 +69,9 @@ const CartItem = ({ cartItem, theCartFetch, itemFetching }) => {
       });
   };
 
+  //When the user click on delete, it removes the item from the cart.
+  //We're also calling itemFetch that comes from App.js in order to make the number of item appears in the cart icon.
+  //We're also calling theCartFetch function from Cart.js that will fetch the new cart.
   const handleDelete = (ev) => {
     ev.preventDefault();
 
@@ -169,7 +181,7 @@ const Row = styled.div`
 `;
 
 const Totaldiv = styled.div`
-padding-top: 5px;
+  padding-top: 5px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -180,11 +192,10 @@ const QtySelection = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
 `;
 
 const QuantityButton = styled.button`
-background-color: white;
+  background-color: white;
   border: gray 1px solid;
   display: flex;
   justify-content: center;

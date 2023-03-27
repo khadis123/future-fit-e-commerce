@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 import GlobalStyles from "./GlobalStyles";
 import { FiLoader } from "react-icons/fi";
 
+//Cart component containing information about the items in the cart.
 const Cart = ({ itemFetching }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,20 +16,22 @@ const Cart = ({ itemFetching }) => {
     fetch("/cart")
       .then((res) => res.json())
       .then((parsedData) => {
-        console.log(parsedData.data);
         setCartItems(parsedData.data);
         setLoading(true);
       });
   };
 
+  //When the page renders, we're calling theCartFetch function above.
   useEffect(() => {
     theCartFetch();
   }, []);
 
+  //When the user clicks on "checkout", it navigates him to the /checkout page.
   const handleClick = () => {
     navigate("/checkout");
   };
 
+  //When the user clicks on "back", it navigates him to the previous page he was on.
   const handleBackClick = () => {
     window.history.back();
   };
@@ -99,8 +102,8 @@ const ButtonsWrapper = styled.div`
   margin-top: auto;
 `;
 const Button = styled.button`
-margin: 0 20px 0 0;
-background-color: lightgray;
+  margin: 0 20px 0 0;
+  background-color: lightgray;
 `;
 
 const AddToCart = styled.button`
